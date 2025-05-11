@@ -1,5 +1,6 @@
 import useStatistics from "./hooks/useStatistics"
 import Statistics from "./components/Statistics"
+import Button from "./components/Button"
 const App = () => {
     // guarda los clics de cada botón en su propio estado
     const {
@@ -20,9 +21,9 @@ const App = () => {
             <div className='feedback' >
                 <h2>Give Feedback</h2>
                 <div className="buttons">
-                    <button onClick={handleAddGood}>good</button>
-                    <button onClick={handleAddNeutral}>neutral</button>
-                    <button onClick={handleAddBad}>bad</button>
+                    <Button onClick={handleAddGood} text='good'/>
+                    <Button onClick={handleAddNeutral} text='neutral'/>
+                    <Button onClick={handleAddBad} text="bad"/>
                 </div>
             </div>
             {

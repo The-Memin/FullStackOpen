@@ -1,14 +1,15 @@
-const Statistics = (prosp)=>{
+import StatisticLine from "./StatisticLine"
+const Statistics = (props)=>{
     return(
         <div className="statistics">
             <h2>Statistics</h2>
             <ul>
-                <li>good: {prosp.good}</li>
-                <li>neutral: {prosp.neutral}</li>
-                <li>bad: {prosp.bad}</li>
-                <li>all: {prosp.all}</li>
-                <li>average: {prosp.average}</li>
-                <li>positive: {prosp.positive} %</li>
+                <StatisticLine text='good' value={props.good}/>
+                <StatisticLine text='neutral' value={props.neutral}/>
+                <StatisticLine text='bad' value={props.bad}/>
+                <StatisticLine text='all' value={props.all}/>
+                <StatisticLine text='average' value={props.average}/>
+                <StatisticLine text='positive' value={`${props.positive} %`}/>
             </ul>
         </div>
     )
