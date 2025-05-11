@@ -2,6 +2,9 @@ import useStatistics from "./hooks/useStatistics"
 const App = () => {
     // guarda los clics de cada botón en su propio estado
     const {
+        all,
+        average,
+        positive,
         good,
         neutral,
         bad,
@@ -27,6 +30,9 @@ const App = () => {
                     <li>good: {good}</li>
                     <li>neutral: {neutral}</li>
                     <li>bad: {bad}</li>
+                    <li>all: {all}</li>
+                    <li>average: {average}</li>
+                    <li>positive: {positive} %</li>
                 </ul>
             </div>
         </div>
