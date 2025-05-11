@@ -1,4 +1,5 @@
 import useStatistics from "./hooks/useStatistics"
+import Statistics from "./components/Statistics"
 const App = () => {
     // guarda los clics de cada botón en su propio estado
     const {
@@ -24,17 +25,7 @@ const App = () => {
                     <button onClick={handleAddBad}>bad</button>
                 </div>
             </div>
-            <div className="statistics">
-                <h2>Statistics</h2>
-                <ul>
-                    <li>good: {good}</li>
-                    <li>neutral: {neutral}</li>
-                    <li>bad: {bad}</li>
-                    <li>all: {all}</li>
-                    <li>average: {average}</li>
-                    <li>positive: {positive} %</li>
-                </ul>
-            </div>
+            <Statistics all={all} average={average} positive={positive} good={good} neutral={neutral} bad={bad}/>
         </div>
         </div>
     )
