@@ -1,7 +1,10 @@
 const StatisticLine = (props)=>{
 
     return(
-        <div>{props.text}: {props.value}</div>
+        <tr>
+            <td>{props.text}</td> 
+            <td>{props.value}</td>
+        </tr>
     )
 }
 
