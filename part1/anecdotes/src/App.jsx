@@ -1,26 +1,19 @@
-import { useState } from 'react'
+import useVotes from './hooks/useVotes'
 import anecdotes from './constants'
 const App = () => {
-  const [selected, setSelected] = useState(0)
-  const [votes, setVotes] = useState({})
+    const {
+        selected,
+        votes,
+        mostVoted,
+        handleVote,
+        handleRandomAnecdote,
+    } = useVotes(anecdotes.length);
 
-  const handleRandomAnecdote = ()=>{
-    const randomNumber = Math.floor(Math.random()* anecdotes.length)
-    setSelected(randomNumber)
-  }
-
-  const handleVote = ()=>{
-    setVotes(prevVotes =>(
-      {
-        ...prevVotes,
-        [selected]: (prevVotes[selected] || 0) + 1
-      }
-    ))
-  }
 
   return (
     <div className='container'>
       <div>
+        <h2>Anecdote of the day</h2>
         <p>
         {anecdotes[selected]}
         </p>
@@ -29,6 +22,14 @@ const App = () => {
       <div className='flex'>
         <button onClick={handleVote}>vote</button>
         <button onClick={handleRandomAnecdote}>next anecdote</button>
+      </div>
+      <div>
+        <h2>Anecdote with most votes</h2>
+        <p>
+        {
+          anecdotes[mostVoted]
+        }
+        </p>
       </div>
     </div>
   )
