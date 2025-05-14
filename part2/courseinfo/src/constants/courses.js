@@ -43,4 +43,4 @@ const courses = [
     }
   ]
 
-  export default courses
+export default courses
