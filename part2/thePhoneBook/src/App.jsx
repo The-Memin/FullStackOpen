@@ -18,7 +18,7 @@ const App = () => {
       return null;
     }
     
-    if (persons.find( person => person.name === newName)) {
+    if (persons.some( person => person.name === newName)) {
       alert(`${newName} is already added to phonebook`)
       return null;
     }
