@@ -21,10 +21,10 @@ export function usePersons(){
                 setPersons(response.data)
             })
     },[])
-    console.log(persons);
     
     const addPerson = (event) => {
         event.preventDefault()
+        const url = "http://localhost:3001/persons/"
         const trimmedName = newName.trim();
         const trimmedPhone = newPhone.trim();
 
@@ -39,14 +39,20 @@ export function usePersons(){
         }
 
         const personObject = {
-        name: trimmedName,
-        phone: trimmedPhone,
-        id: persons.length > 0 ? Math.max(...persons.map(p => p.id)) + 1 : 1
+            name: trimmedName,
+            phone: trimmedPhone,
+            id: persons.length > 0 ? Math.max(...persons.map(p => p.id)) + 1 : 1
         };
 
-        setPersons(persons.concat(personObject));
-        setNewName('');
-        setNewPhone('');
+        axios
+            .post(url, personObject)
+            .then(response =>{
+                console.log("response: ",response);
+                setPersons(persons.concat(response.data));
+                setNewName('');
+                setNewPhone('');
+            })
+
     }
     return {
         persons,
