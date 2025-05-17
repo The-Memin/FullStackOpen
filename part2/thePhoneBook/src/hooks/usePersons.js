@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from 'axios'
+import personSevice from '../services/persons'
 export function usePersons(){
     const [persons, setPersons] = useState([]) 
     const [newName, setNewName] = useState('')
@@ -15,45 +15,41 @@ export function usePersons(){
 
     useEffect(()=>{
         console.log('effect')
-        axios.get('http://localhost:3001/persons')
-            .then(response =>{
-                console.log('promise fulfilled')
-                setPersons(response.data)
-            })
+        personSevice
+            .getAll()
+            .then(initialPersons => setPersons(initialPersons))
     },[])
     
     const addPerson = (event) => {
         event.preventDefault()
-        const url = "http://localhost:3001/persons/"
         const trimmedName = newName.trim();
         const trimmedPhone = newPhone.trim();
 
         if (trimmedName === '' || trimmedPhone === '') {
-        alert("Please fill in all fields.");
-        return;
+            alert("Please fill in all fields.");
+            return;
         }
 
         if (persons.some(person => person.name.toLowerCase() === trimmedName.toLowerCase())) {
-        alert(`${trimmedName} is already added to the phonebook.`);
-        return;
+            alert(`${trimmedName} is already added to the phonebook.`);
+            return;
         }
 
         const personObject = {
             name: trimmedName,
             phone: trimmedPhone,
-            id: persons.length > 0 ? Math.max(...persons.map(p => p.id)) + 1 : 1
         };
 
-        axios
-            .post(url, personObject)
-            .then(response =>{
-                console.log("response: ",response);
-                setPersons(persons.concat(response.data));
+        personSevice
+            .create(personObject)
+            .then(newPerson => {
+                setPersons(persons.concat(newPerson))
                 setNewName('');
                 setNewPhone('');
             })
 
     }
+    
     return {
         persons,
         newName,
