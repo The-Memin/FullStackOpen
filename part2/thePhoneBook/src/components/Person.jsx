@@ -1,7 +1,7 @@
 
-const Person = ({name, phone})=>{
+const Person = ({name, phone, id, deletePerson})=>{
     return(
-        <p>{name} {phone}</p>
+        <p>{name} {phone} <button onClick={deletePerson} id={id}>delete</button></p>
     )
 }
 

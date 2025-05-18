@@ -50,12 +50,32 @@ export function usePersons(){
 
     }
     
+    const deletePerson = (event) => {
+        const personId = event.target.id
+        const person = persons.find(p => p.id === personId)
+
+        if(!person) return
+        if (!window.confirm(`Delete ${person.name}?`)) return
+
+        personSevice
+            .delete_(personId)
+            .then( _ => {
+                const newPersons = persons.filter(p => p.id !== personId)
+                setPersons(newPersons)
+            })
+            .catch(() => {
+                alert(`${person.name} was already deleted from the server`)
+                setPersons(persons.filter(p => p.id !== personId))
+            })
+    }
+
     return {
         persons,
         newName,
         newPhone,
         handleNameChange,
         handlePhoneChange,
-        addPerson
+        addPerson,
+        deletePerson
     }
 }

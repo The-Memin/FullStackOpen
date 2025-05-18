@@ -10,7 +10,8 @@ const App = () => {
       newPhone,
       handleNameChange,
       handlePhoneChange,
-      addPerson
+      addPerson, 
+      deletePerson
   } = usePersons()
 
   const {personsToShow, textFilter, handleFilterChange} = useFilterPersons(persons)
@@ -28,7 +29,7 @@ const App = () => {
         onChangePhone={handlePhoneChange}
       />
       <h2>Numbers</h2>
-      <Persons personsToShow={personsToShow}/>
+      <Persons personsToShow={personsToShow} deletePerson={deletePerson}/>
     </div>
   )
 }
