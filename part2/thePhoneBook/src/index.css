@@ -1,0 +1,23 @@
+:root{
+    --color-1: green;
+    --color-2: orange;
+}
+
+.label{
+    background-color: lightgray;
+    padding: .6em;
+    border-radius: 6px;
+    font-size: 18px;
+    border: 2px solid lightgray;
+    margin-bottom: 1em;
+}
+
+.success{
+    color: var(--color-1);
+    border: 2px solid var(--color-1);
+}
+
+.delete{
+    color: var(--color-2);
+    border: 2px solid var(--color-2);
+}

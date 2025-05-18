@@ -1,9 +1,14 @@
 import { useState, useEffect } from "react";
 import personSevice from '../services/persons'
+import { typeMessage } from "../constants";
 export function usePersons(){
     const [persons, setPersons] = useState([]) 
     const [newName, setNewName] = useState('')
     const [newPhone, setNewPhone] = useState('')
+    const [notification, setNotification] = useState({
+        message: '',
+        type: ''
+    })
 
     const handleNameChange = (event) => {
         setNewName(event.target.value)
@@ -19,14 +24,24 @@ export function usePersons(){
             .then(initialPersons => setPersons(initialPersons))
     },[])
     
+    const setNotificationMessage = (message, type)=>{
+        setNotification({
+                    message: message,
+                    type: type
+                })
+                setTimeout(() => {
+                    setNotification({ message: '', type: '' });
+                }, 2000);
+    }
+
     const updatePerson = (person, newPhone) =>{
         const newPersonUpdated = {...person, phone: newPhone}
         
         personSevice.update(person.id, newPersonUpdated)
             .then( personUpdated => 
-                setPersons(persons.map( p => 
-                    p.id !== personUpdated.id? p : personUpdated
-                ))
+                setPersons(prev => 
+                    prev.map( p => p.id !== personUpdated.id ? p : personUpdated)
+                )
             )
     }
 
@@ -65,6 +80,7 @@ export function usePersons(){
                 setPersons(persons.concat(newPerson))
                 setNewName('');
                 setNewPhone('');
+                setNotificationMessage(`added ${newPerson.name}`, typeMessage.success)
             })
 
     }
@@ -81,6 +97,7 @@ export function usePersons(){
             .then( _ => {
                 const newPersons = persons.filter(p => p.id !== personId)
                 setPersons(newPersons)
+                setNotificationMessage(`deleted ${person.name}`, typeMessage.delete)
             })
             .catch(() => {
                 alert(`${person.name} was already deleted from the server`)
@@ -92,9 +109,10 @@ export function usePersons(){
         persons,
         newName,
         newPhone,
+        notification,
         handleNameChange,
         handlePhoneChange,
         addPerson,
-        deletePerson
+        deletePerson,
     }
 }

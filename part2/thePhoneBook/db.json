@@ -11,11 +11,6 @@
       "id": "2"
     },
     {
-      "name": "Dan Abramov",
-      "phone": "12-43-234345",
-      "id": "3"
-    },
-    {
       "name": "Mary Poppendieck",
       "phone": "39-23-6423122",
       "id": "4"
@@ -34,6 +29,16 @@
       "id": "1ac1",
       "name": "Escultor",
       "phone": "951 900 89 89"
+    },
+    {
+      "id": "0717",
+      "name": "Miroslava",
+      "phone": "951 500 35 33"
+    },
+    {
+      "id": "473e",
+      "name": "José",
+      "phone": "123"
     }
   ]
 }
