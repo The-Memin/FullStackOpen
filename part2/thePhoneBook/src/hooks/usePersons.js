@@ -14,12 +14,22 @@ export function usePersons(){
     }
 
     useEffect(()=>{
-        console.log('effect')
         personSevice
             .getAll()
             .then(initialPersons => setPersons(initialPersons))
     },[])
     
+    const updatePerson = (person, newPhone) =>{
+        const newPersonUpdated = {...person, phone: newPhone}
+        
+        personSevice.update(person.id, newPersonUpdated)
+            .then( personUpdated => 
+                setPersons(persons.map( p => 
+                    p.id !== personUpdated.id? p : personUpdated
+                ))
+            )
+    }
+
     const addPerson = (event) => {
         event.preventDefault()
         const trimmedName = newName.trim();
@@ -30,9 +40,18 @@ export function usePersons(){
             return;
         }
 
-        if (persons.some(person => person.name.toLowerCase() === trimmedName.toLowerCase())) {
-            alert(`${trimmedName} is already added to the phonebook.`);
-            return;
+        const existingPerson = persons.find(
+            p => p.name.trim().toLowerCase()=== trimmedName.toLowerCase()
+        )
+        
+        if (existingPerson) {
+            const confirmReplace = window.confirm(
+                `${trimmedName} is already added to the phonebook. Replace the old number with a new one?`
+            )
+            if (confirmReplace){
+                updatePerson(existingPerson, newPhone)
+            }
+            return
         }
 
         const personObject = {
