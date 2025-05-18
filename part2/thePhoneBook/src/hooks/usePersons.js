@@ -31,7 +31,7 @@ export function usePersons(){
                 })
                 setTimeout(() => {
                     setNotification({ message: '', type: '' });
-                }, 2000);
+                }, 3000);
     }
 
     const updatePerson = (person, newPhone) =>{
@@ -42,7 +42,14 @@ export function usePersons(){
                 setPersons(prev => 
                     prev.map( p => p.id !== personUpdated.id ? p : personUpdated)
                 )
-            )
+            ).catch(()=>{
+                setNotificationMessage(`Information of ${person.name} has already been removed from server`, typeMessage.error)
+                setPersons(prev => {
+                    const update = prev.filter(p => p.id !== person.id)
+                    return  update
+                }
+                )
+            })
     }
 
     const addPerson = (event) => {
@@ -81,6 +88,9 @@ export function usePersons(){
                 setNewName('');
                 setNewPhone('');
                 setNotificationMessage(`added ${newPerson.name}`, typeMessage.success)
+            })
+            .catch((error)=>{
+                console.log(error);
             })
 
     }
