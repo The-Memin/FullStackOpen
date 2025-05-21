@@ -1,4 +1,5 @@
 import { useState } from "react"
+import Weather from "./Weather"
 
 const Country = ({country, showAll})=>{
     const countryName = country.name.common
@@ -15,27 +16,28 @@ const Country = ({country, showAll})=>{
                     : [];
     
     return (
+            <div>
+                <h1>{countryName}</h1>
                 <div>
-                    <h1>{countryName}</h1>
-                    <div>
-                        <p>Capital: {country.capital?.[0] ?? 'Unknown'}</p>
-                        <p>Area: {country.area ?? 'N/A'}</p>
-                    </div>
-                    <div>
-                        <h3>Languages</h3>
-                        <ul>
-                            {
-                              languages.map(lang=>
-                                <li key={lang}>{lang}</li>
-                              ) 
-                            }
-                        </ul>
-                    </div>
-                    <div>
-                        <img src={country.flags.png} alt={`flag-${countryName}`} />
-                    </div>
-                    <button onClick={toggleShowAllData}>hide</button>
+                    <p>Capital: {country.capital?.[0] ?? 'Unknown'}</p>
+                    <p>Area: {country.area ?? 'N/A'}</p>
                 </div>
+                <div>
+                    <h3>Languages</h3>
+                    <ul>
+                        {
+                            languages.map(lang=>
+                            <li key={lang}>{lang}</li>
+                            ) 
+                        }
+                    </ul>
+                </div>
+                <div>
+                    <img src={country.flags.png} alt={`flag-${countryName}`} />
+                </div>
+                <Weather location={country.capital[0]}/>
+                <button onClick={toggleShowAllData}>hide</button>
+            </div>
             )
 }
 
