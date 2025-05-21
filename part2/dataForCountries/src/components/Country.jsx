@@ -1,12 +1,18 @@
+import { useState } from "react"
+
 const Country = ({country, showAll})=>{
     const countryName = country.name.common
+    const [showAllData, setShowAllData] = useState(showAll)
 
-    if(!showAll) return <li>{countryName}</li>
+    const toggleShowAllData = ()=>{
+        setShowAllData(prev => !prev)
+    }
+
+    if(!showAllData) return <li>{countryName} <button onClick={toggleShowAllData}>show</button></li>
     
     const languages = country.languages 
                     ? Object.values(country.languages) 
                     : [];
-    console.log(languages);
     
     return (
                 <div>
@@ -28,6 +34,7 @@ const Country = ({country, showAll})=>{
                     <div>
                         <img src={country.flags.png} alt={`flag-${countryName}`} />
                     </div>
+                    <button onClick={toggleShowAllData}>hide</button>
                 </div>
             )
 }
