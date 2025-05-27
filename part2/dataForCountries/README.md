@@ -19,8 +19,8 @@ A React application that displays detailed information about countries, includin
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/data-for-countries.git
-cd data-for-countries
+git clone https://github.com/The-Memin/FullStackOpen.git
+cd FullStackOpen/part2/dataForCountries
 ```
 
 ### 2. Install dependencies
