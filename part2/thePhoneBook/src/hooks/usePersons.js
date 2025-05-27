@@ -98,7 +98,7 @@ export function usePersons(){
     const deletePerson = (event) => {
         const personId = event.target.id
         const person = persons.find(p => p.id === personId)
-
+        
         if(!person) return
         if (!window.confirm(`Delete ${person.name}?`)) return
 

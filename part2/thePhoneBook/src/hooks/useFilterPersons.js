@@ -1,7 +1,7 @@
 import { useState } from "react"
 export function useFilterPersons(persons){
     const [textFilter, setTextFilter] = useState('')
-
+    
     const handleFilterChange = (event)=>{
         setTextFilter(event.target.value)
     }
