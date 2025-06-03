@@ -1,13 +1,13 @@
-import { useFilterPersons} from './hooks/useFilterPersons'
-import { usePersons } from './hooks/usePersons'
+import { useFilterPeople} from './hooks/useFilterPeople'
+import { usePeople } from './hooks/usePeople'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
-import Persons from './components/Persons'
+import People from './components/People'
 import Notification from './components/Notification'
 
 const App = () => {
   const {
-      persons,
+      people,
       newName,
       newPhone,
       notification,
@@ -15,8 +15,8 @@ const App = () => {
       handlePhoneChange,
       addPerson, 
       deletePerson
-  } = usePersons()
-  const {personsToShow, textFilter, handleFilterChange} = useFilterPersons(persons)
+  } = usePeople()
+  const {peopleToShow, textFilter, handleFilterChange} = useFilterPeople(people)
 
   return (
     <div>
@@ -34,7 +34,7 @@ const App = () => {
         onChangePhone={handlePhoneChange}
       />
       <h2>Numbers</h2>
-      <Persons personsToShow={personsToShow} deletePerson={deletePerson}/>
+      <People peopleToShow={peopleToShow} deletePerson={deletePerson}/>
     </div>
   )
 }

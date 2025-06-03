@@ -1,5 +1,5 @@
 import { useState } from "react"
-export function useFilterPersons(persons){
+export function useFilterPeople(people){
     const [textFilter, setTextFilter] = useState('')
     
     const handleFilterChange = (event)=>{
@@ -8,13 +8,13 @@ export function useFilterPersons(persons){
 
      const trimmedFilter = textFilter.trim().toLowerCase();
 
-    const personsToShow = trimmedFilter === "" 
-                      ? persons 
-                      : persons.filter(person => person.name.toLowerCase().includes(textFilter.toLowerCase()))
+    const peopleToShow = trimmedFilter === "" 
+                      ? people 
+                      : people.filter(person => person.name.toLowerCase().includes(textFilter.toLowerCase()))
 
     return {
         textFilter,
         handleFilterChange,
-        personsToShow
+        peopleToShow
     }
 }

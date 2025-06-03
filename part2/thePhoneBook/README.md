@@ -17,7 +17,7 @@ src/
 
 ## 🚀 Features
 
-- List all persons in the phonebook
+- List all people in the phonebook
 - Add a new contact with name and phone number
 - Filter contacts by name
 - Delete contacts

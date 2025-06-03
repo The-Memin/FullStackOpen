@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import personSevice from '../services/persons'
+import personSevice from '../services/people'
 import { typeMessage } from "../constants";
-export function usePersons(){
-    const [persons, setPersons] = useState([]) 
+export function usePeople(){
+    const [people, setPeople] = useState([]) 
     const [newName, setNewName] = useState('')
     const [newPhone, setNewPhone] = useState('')
     const [notification, setNotification] = useState({
@@ -21,7 +21,7 @@ export function usePersons(){
     useEffect(()=>{
         personSevice
             .getAll()
-            .then(initialPersons => setPersons(initialPersons))
+            .then(initialPeople => setPeople(initialPeople))
     },[])
     
     const setNotificationMessage = (message, type)=>{
@@ -39,12 +39,12 @@ export function usePersons(){
         
         personSevice.update(person.id, newPersonUpdated)
             .then( personUpdated => 
-                setPersons(prev => 
+                setPeople(prev => 
                     prev.map( p => p.id !== personUpdated.id ? p : personUpdated)
                 )
             ).catch(()=>{
                 setNotificationMessage(`Information of ${person.name} has already been removed from server`, typeMessage.error)
-                setPersons(prev => {
+                setPeople(prev => {
                     const update = prev.filter(p => p.id !== person.id)
                     return  update
                 }
@@ -62,7 +62,7 @@ export function usePersons(){
             return;
         }
 
-        const existingPerson = persons.find(
+        const existingPerson = people.find(
             p => p.name.trim().toLowerCase()=== trimmedName.toLowerCase()
         )
         
@@ -84,7 +84,7 @@ export function usePersons(){
         personSevice
             .create(personObject)
             .then(newPerson => {
-                setPersons(persons.concat(newPerson))
+                setPeople(people.concat(newPerson))
                 setNewName('');
                 setNewPhone('');
                 setNotificationMessage(`added ${newPerson.name}`, typeMessage.success)
@@ -97,7 +97,7 @@ export function usePersons(){
     
     const deletePerson = (event) => {
         const personId = event.target.id
-        const person = persons.find(p => p.id === personId)
+        const person = people.find(p => p.id === personId)
         
         if(!person) return
         if (!window.confirm(`Delete ${person.name}?`)) return
@@ -105,18 +105,18 @@ export function usePersons(){
         personSevice
             .delete_(personId)
             .then( _ => {
-                const newPersons = persons.filter(p => p.id !== personId)
-                setPersons(newPersons)
+                const newPeople = people.filter(p => p.id !== personId)
+                setPeople(newPeople)
                 setNotificationMessage(`deleted ${person.name}`, typeMessage.delete)
             })
             .catch(() => {
                 alert(`${person.name} was already deleted from the server`)
-                setPersons(persons.filter(p => p.id !== personId))
+                setPeople(people.filter(p => p.id !== personId))
             })
     }
 
     return {
-        persons,
+        people,
         newName,
         newPhone,
         notification,
