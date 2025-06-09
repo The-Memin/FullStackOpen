@@ -38,10 +38,13 @@ export function usePeople(){
         const newPersonUpdated = {...person, phone: newPhone}
         
         personSevice.update(person.id, newPersonUpdated)
-            .then( personUpdated => 
+            .then( personUpdated =>{
                 setPeople(prev => 
                     prev.map( p => p.id !== personUpdated.id ? p : personUpdated)
                 )
+                setNotificationMessage(`${personUpdated.name} updated`, typeMessage.success)
+            } 
+                
             ).catch(()=>{
                 setNotificationMessage(`Information of ${person.name} has already been removed from server`, typeMessage.error)
                 setPeople(prev => {
