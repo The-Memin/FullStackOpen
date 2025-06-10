@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import personSevice from '../services/people'
+import personService from '../services/people'
 import { typeMessage } from "../constants";
 export function usePeople(){
     const [people, setPeople] = useState([]) 
@@ -19,7 +19,7 @@ export function usePeople(){
     }
 
     useEffect(()=>{
-        personSevice
+        personService
             .getAll()
             .then(initialPeople => setPeople(initialPeople))
     },[])
@@ -37,7 +37,7 @@ export function usePeople(){
     const updatePerson = (person, newPhone) =>{
         const newPersonUpdated = {...person, phone: newPhone}
         
-        personSevice.update(person.id, newPersonUpdated)
+        personService.update(person.id, newPersonUpdated)
             .then( personUpdated =>{
                 setPeople(prev => 
                     prev.map( p => p.id !== personUpdated.id ? p : personUpdated)
@@ -84,16 +84,17 @@ export function usePeople(){
             phone: trimmedPhone,
         };
 
-        personSevice
+        personService
             .create(personObject)
             .then(newPerson => {
-                setPeople(people.concat(newPerson))
                 setNewName('');
                 setNewPhone('');
                 setNotificationMessage(`added ${newPerson.name}`, typeMessage.success)
+                setPeople(people.concat(newPerson))
             })
             .catch((error)=>{
-                console.log(error);
+                console.log(error.response.data.error);
+                setNotificationMessage(`${error.response.data.error}`, typeMessage.error)
             })
 
     }
@@ -105,7 +106,7 @@ export function usePeople(){
         if(!person) return
         if (!window.confirm(`Delete ${person.name}?`)) return
 
-        personSevice
+        personService
             .delete_(personId)
             .then( _ => {
                 const newPeople = people.filter(p => p.id !== personId)
