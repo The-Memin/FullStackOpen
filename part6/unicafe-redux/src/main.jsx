@@ -13,15 +13,22 @@ const App = () => {
     })
   }
 
+  const launchDispach = (t) => () => {
+    const rating = {good: 'GOOD', ok:'OK', bad:'BAD', zero:'ZERO'}
+    store.dispatch({
+      type: rating[t]
+    })
+  }
+
   return (
     <div>
-      <button onClick={good}>good</button> 
-      <button>ok</button> 
-      <button>bad</button>
-      <button>reset stats</button>
+      <button onClick={ launchDispach('good')}>good</button> 
+      <button onClick={ launchDispach('ok')}>ok</button> 
+      <button onClick={ launchDispach('bad')}>bad</button>
+      <button onClick={ launchDispach('zero')}>reset stats</button>
       <div>good {store.getState().good}</div>
-      <div>ok</div>
-      <div>bad</div>
+      <div>ok {store.getState().ok }</div>
+      <div>bad {store.getState().bad }</div>
     </div>
   )
 }
