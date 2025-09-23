@@ -1,0 +1,12 @@
+{
+  "workbench.colorCustomizations": {
+    // Barra de iconos (activity bar)
+    "activityBar.background": "#18b687",
+    "activityBar.foreground": "#FFFFFF",
+    "activityBar.inactiveForeground": "#e2e8f1",
+    "activityBarBadge.background": "#aa41e7",
+    "activityBarBadge.foreground": "#FFF",
+    
+    "sideBar.foreground": "#FFFFFF"
+  }
+}
