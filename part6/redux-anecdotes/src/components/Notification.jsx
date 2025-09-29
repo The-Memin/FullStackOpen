@@ -8,7 +8,6 @@ const Notification = () => {
     borderWidth: 1,
     color: '#FFF'
   }
-  console.log(notification !== '')
   return (
     <div>
       {
