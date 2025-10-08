@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 const NotificationContext = createContext()
 
-const notificationReducer = (_, action) => {
+const notificationReducer = ( _, action) => {
     switch (action.type) {
         case 'ERROR':
             return `${action.payload}`
