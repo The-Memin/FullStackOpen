@@ -23,12 +23,12 @@
     {
       "content": "Premature optimization is the root of all evil.",
       "id": "25170",
-      "votes": 0
+      "votes": 1
     },
     {
       "content": "Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.",
       "id": "98312",
-      "votes": 1
+      "votes": 2
     },
     {
       "content": "el pegachu es divino",
@@ -39,6 +39,21 @@
       "content": "La boguita es hermosa",
       "votes": 1,
       "id": "ZAPjD2E"
+    },
+    {
+      "content": "La yeti yeti era preciosisisisma",
+      "votes": 0,
+      "id": "VbechiY"
+    },
+    {
+      "content": "El escuturas hermoso",
+      "votes": 0,
+      "id": "yKcqDdD"
+    },
+    {
+      "content": "cuak cuak",
+      "votes": 0,
+      "id": "NcLZHV6"
     }
   ]
 }

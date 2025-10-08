@@ -9,17 +9,20 @@ const Anecdotes = ({ anecdotes }) => {
     const voteMutation = useMutation({
         mutationFn: updateAnecdote,
         onSuccess: updatedAnecdote => {
-        console.log(updatedAnecdote)
-        const updatedAnecdotes = queryClient.getQueryData(['anecdotes'])
-                                    .map( a => a.id !== updatedAnecdote.id ? a : updatedAnecdote)
-        queryClient.setQueryData(['anecdotes'], updatedAnecdotes)
+            //console.log(updatedAnecdote)
+            const updatedAnecdotes = queryClient.getQueryData(['anecdotes'])
+                                        .map( a => a.id !== updatedAnecdote.id ? a : updatedAnecdote)
+            queryClient.setQueryData(['anecdotes'], updatedAnecdotes)
+            setNotification(updatedAnecdote.content, 'VOTE')
+        },
+        onError: error => {
+            setNotification('PERRO','ERROR')
         }
     })
 
     const handleVote = (anecdote) => {
         console.log('vote')
         voteMutation.mutate({...anecdote, votes: anecdote.votes + 1})
-        setNotification(anecdote.content)
     }
     return(
         <>

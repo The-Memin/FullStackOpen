@@ -14,8 +14,8 @@ export const useNotificationDispatch = () => {
 export const useSetNotification = () => {
     const dispatch = useNotificationDispatch()
 
-    return (content, timeInSeconds = 5) => {
-        dispatch({ type: 'VOTE', payload: content })
+    return (content, type, timeInSeconds = 5) => {
+        dispatch({ type, payload: content })
         setTimeout(() => {
             dispatch({ type: 'RESET' })
         }, timeInSeconds * 1000)
