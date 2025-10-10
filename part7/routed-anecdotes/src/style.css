@@ -1,0 +1,9 @@
+.error{
+    border-color: red;
+    color: red;
+}
+
+.create{
+    border-color: blue;
+    color: blue;
+}
