@@ -1,23 +1,23 @@
-import { useState, useEffect } from 'react'
-import blogService from '../services/blogs'
+import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { showNotification } from '../reducers/notificationReducer'
+import { initilizeBlogs, createBlog, removeBlog, likeBlog } from '../reducers/blogReducer'
+import { useSelector } from 'react-redux'
 
 export default function useBlogs(){
-    const [blogs, setBlogs] = useState([])
+    const blogs = useSelector(state => state.blogs)
     const dispatch = useDispatch()
 
     const addNewBlog = async newBlog => {
         try {
-            const createdBlog = await blogService.create(newBlog)
-            setBlogs(prev => [...prev, createdBlog])
+            await dispatch(createBlog(newBlog))
             dispatch(showNotification({
-                message: `A new blog ${createdBlog.title} by ${createdBlog.author} added`,
+                message: `A new blog ${newBlog.title} by ${newBlog.author} added`,
                 style: 'success'
             }, 5))
         } catch (error) {
             dispatch(showNotification({
-                message: error.response.data.error,
+                message: error.response?.data?.error || error.message,
                 style: 'error'
             }, 5))
         }
@@ -28,10 +28,8 @@ export default function useBlogs(){
             const deleteBlog = window.confirm(`Remove blog You're NOT gonna need it! by ${blog.author}`)
             if(!deleteBlog) return null
 
-            await blogService.remove(blog.id)
+            await dispatch(removeBlog(blog.id))
 
-            const updatedBlogs = blogs.filter(b => b.id !== blog.id)
-            setBlogs(updatedBlogs)
             dispatch(showNotification({
                 message: `Blog ${blog.title} by ${blog.author} deleted`,
                 style: 'success'
@@ -47,32 +45,23 @@ export default function useBlogs(){
 
     const updateLikes = async blog => {
         try {
-            const currentBlog = {
+            const updatedBlogData = {
                 ...blog,
                 likes: blog.likes + 1,
             }
-            const  updatedBlog = await blogService.update(currentBlog)
 
-            const updatedBlogs = blogs.map(blog => {
-                if (blog.id === updatedBlog.id) {
-                    return { ...updatedBlog }
-                }
-                return blog
-            })
-            setBlogs(updatedBlogs)
+            await dispatch(likeBlog(updatedBlogData))
         } catch (e) {
             dispatch(showNotification({
-                message: e.response.data.error,
+                message: e.response?.data?.error || e.message,
                 style: 'error'
             }, 5))
         }
     }
 
     useEffect(() => {
-        blogService.getAll().then(blogs =>
-            setBlogs( blogs )
-        )
-    }, [])
+        dispatch(initilizeBlogs())
+    }, [dispatch])
 
     return {
         blogs,
