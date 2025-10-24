@@ -3,6 +3,7 @@ import CreateBlogForm from './CreateBlogForm'
 import Togglable from './Togglable'
 import { useRef, useState } from 'react'
 import useBlogs from '../hooks/useBlogs'
+import useLogin from '../hooks/useLogin'
 
 const SORT = {
     ASC: 'asc',
@@ -15,10 +16,10 @@ function sortByLikes(arr, order) {
     return arr
 }
 
-const Blogs = ({ user, onLogOut }) => {
+const Blogs = () => {
     const blogRef = useRef()
     const [order, setOrder] = useState(SORT.DESC)
-
+    const { user, onLogOut } = useLogin()
     const {
         blogs,
         addNewBlog,

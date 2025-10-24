@@ -1,24 +1,17 @@
-import { useState, useEffect } from 'react'
-import  loginService  from '../services/login'
+import { useEffect } from 'react'
 import { LOGGED_BLOGAPP_USER } from '../constants/login'
-import blogsService from '../services/blogs'
 import { useDispatch } from 'react-redux'
 import { showNotification } from '../reducers/notificationReducer'
+import { loginUser, logoutUser, setUserFromStorage } from '../reducers/userReducer'
+import { useSelector } from 'react-redux'
 
 export default function useLogin() {
-    const [user, setUser] = useState(null)
+    const user = useSelector(state => state.user)
     const dispatch = useDispatch()
 
-    const handleLogin = async (username, password) => {
+    const onLogin = async (username, password) => {
         try {
-            const user = await loginService.login({ username, password })
-
-            window.localStorage.setItem(
-                LOGGED_BLOGAPP_USER, JSON.stringify(user)
-            )
-
-            blogsService.setToken(user.token)
-            setUser(user)
+            await dispatch(loginUser({ username, password }))
         } catch (error) {
             dispatch(showNotification({
                 message: 'Wrong username or password',
@@ -27,23 +20,21 @@ export default function useLogin() {
         }
     }
 
-    const handleLogOut = () => {
-        setUser(null)
-        window.localStorage.removeItem(LOGGED_BLOGAPP_USER)
+    const onLogOut = () => {
+        dispatch(logoutUser())
     }
 
     useEffect(() => {
         const loggedUserJSON = window.localStorage.getItem(LOGGED_BLOGAPP_USER )
         if(loggedUserJSON){
             const user = JSON.parse(loggedUserJSON)
-            setUser(user)
-            blogsService.setToken(user.token)
+            dispatch(setUserFromStorage(user))
         }
-    },[])
+    },[dispatch])
 
     return {
         user,
-        handleLogin,
-        handleLogOut
+        onLogin,
+        onLogOut
     }
 }

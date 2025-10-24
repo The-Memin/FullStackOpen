@@ -5,7 +5,7 @@ import Blogs from './components/Blogs'
 import Notification from './components/Notification'
 
 const App = () => {
-    const { user, handleLogin, handleLogOut } = useLogin()
+    const { user } = useLogin()
 
     return (
         <div>
@@ -18,9 +18,9 @@ const App = () => {
             {
                 !user ?
                     <Togglable buttonLabel="login">
-                        <LoginForm onLogin={handleLogin}/>
+                        <LoginForm/>
                     </Togglable> :
-                    <Blogs user={user} onLogOut={handleLogOut}/>
+                    <Blogs/>
             }
         </div>
     )

@@ -1,12 +1,14 @@
 import useLoginForm from '../hooks/useLoginForm'
-const LoginForm = ({ onLogin }) => {
+import useLogin from '../hooks/useLogin'
+
+const LoginForm = () => {
     const {
         password,
         username,
         changePassword,
         changeUsername
     } = useLoginForm()
-
+    const { onLogin } = useLogin()
     const login = (e) => {
         e.preventDefault()
         onLogin(username, password)
