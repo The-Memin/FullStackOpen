@@ -19,17 +19,17 @@ export default function useBlogs(){
     })
 
     const deleteBlogMutation = useMutation({
-        mutationFn: blogService.remove,
-        onSuccess: (deletedBlog) => {
-            console.log(deletedBlog)
-            const blogs = queryClient.getQueryData(['blogs'])
+        mutationFn: (blog) => blogService.remove(blog.id),
+        onSuccess: (_, deletedBlog) => {
+            const blogs = queryClient.getQueryData(['blogs']) || []
             queryClient.setQueryData(['blogs'], blogs.filter(b => b.id !== deletedBlog.id))
-            setNotification(`Blog ${deletedBlog.title} deleted`, 'SUCCESS')
+            setNotification(`Blog ${deletedBlog.title} deleted success`, 'SUCCESS')
         },
         onError: (error) => {
-            setNotification(error.response?.data?.error || 'An error occurred while deleting the blog', 'ERROR')
-        }
+            setNotification(error.response?.data?.error || 'Error deleting blog', 'ERROR')
+        },
     })
+
 
     const updateLikesMutation = useMutation({
         mutationFn: blogService.update,
@@ -56,7 +56,7 @@ export default function useBlogs(){
     }
 
     const deleteBlog = async blog => {
-        deleteBlogMutation.mutate(blog.id)
+        deleteBlogMutation.mutate(blog)
     }
 
     const updateLikes = async blog => {
