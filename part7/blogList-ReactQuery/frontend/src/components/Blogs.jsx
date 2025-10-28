@@ -25,6 +25,7 @@ const Blogs = ({ user, onLogOut, setNotification }) => {
         deleteBlog,
         updateLikes
     } = useBlogs(setNotification)
+
     const addBlog = (newBlog) => {
         blogRef.current.toggleVisibility()
         addNewBlog(newBlog)
