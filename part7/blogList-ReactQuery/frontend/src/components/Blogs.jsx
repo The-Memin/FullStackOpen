@@ -3,6 +3,7 @@ import CreateBlogForm from './CreateBlogForm'
 import Togglable from './Togglable'
 import { useRef, useState } from 'react'
 import useBlogs from '../hooks/useBlogs'
+import useLogin from '../hooks/useLogin'
 
 const SORT = {
     ASC: 'asc',
@@ -15,16 +16,17 @@ function sortByLikes(arr, order) {
     return arr
 }
 
-const Blogs = ({ user, onLogOut, setNotification }) => {
+const Blogs = () => {
     const blogRef = useRef()
     const [order, setOrder] = useState(SORT.DESC)
+    const { user, handleLogOut } = useLogin()
 
     const {
         blogs,
         addNewBlog,
         deleteBlog,
         updateLikes
-    } = useBlogs(setNotification)
+    } = useBlogs()
 
     const addBlog = (newBlog) => {
         blogRef.current.toggleVisibility()
@@ -40,7 +42,7 @@ const Blogs = ({ user, onLogOut, setNotification }) => {
     return(
         <div>
             <div>
-                <span>{user.name} logged in</span><button onClick={onLogOut}>log out</button>
+                <span>{user.name} logged in</span><button onClick={handleLogOut}>log out</button>
             </div>
             <Togglable buttonLabel='create a new blog' ref={blogRef}>
                 <CreateBlogForm addBlog={ addBlog }/>

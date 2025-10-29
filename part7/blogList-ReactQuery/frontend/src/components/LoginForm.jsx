@@ -1,5 +1,7 @@
 import useLoginForm from '../hooks/useLoginForm'
-const LoginForm = ({ onLogin }) => {
+import useLogin from '../hooks/useLogin'
+const LoginForm = () => {
+    const { handleLogin } = useLogin()
     const {
         password,
         username,
@@ -9,14 +11,14 @@ const LoginForm = ({ onLogin }) => {
 
     const login = (e) => {
         e.preventDefault()
-        onLogin(username, password)
+        handleLogin({ username, password })
         changePassword('')
         changeUsername('')
     }
 
     return(
         <div>
-            <form onSubmit={login}>
+            <form onSubmit={ login}>
                 <div>
                     <label htmlFor="username">username</label>
                     <input

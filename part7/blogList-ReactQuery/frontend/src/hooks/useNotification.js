@@ -1,6 +1,5 @@
 import { useContext } from 'react'
 import NotificationContext from '../contexts/NotificationContext'
-import { useState } from 'react'
 
 export const useNotificationValue = () => {
     const notificationAndDispatch = useContext(NotificationContext)
@@ -21,24 +20,3 @@ export const useSetNotification = () => {
         }, time*1000)
     }
 }
-
-const useNotification = () => {
-    const [notificationMessage, setNotificationMessage] = useState(null)
-
-    const setNotification = notification => {
-        setNotificationMessage({
-            content: notification.content,
-            type: notification.type
-        })
-        setTimeout(() => {
-            setNotificationMessage(null)
-        }, 5000)
-    }
-
-    return{
-        notificationMessage,
-        setNotification
-    }
-}
-
-export default useNotification
