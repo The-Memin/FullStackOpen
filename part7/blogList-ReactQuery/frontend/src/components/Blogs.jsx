@@ -19,7 +19,7 @@ function sortByLikes(arr, order) {
 const Blogs = () => {
     const blogRef = useRef()
     const [order, setOrder] = useState(SORT.DESC)
-    const { user, handleLogOut } = useLogin()
+    const { user } = useLogin()
 
     const {
         blogs,
@@ -41,9 +41,6 @@ const Blogs = () => {
 
     return(
         <div>
-            <div>
-                <span>{user.name} logged in</span><button onClick={handleLogOut}>log out</button>
-            </div>
             <Togglable buttonLabel='create a new blog' ref={blogRef}>
                 <CreateBlogForm addBlog={ addBlog }/>
             </Togglable>

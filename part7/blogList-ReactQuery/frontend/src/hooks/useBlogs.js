@@ -30,13 +30,11 @@ export default function useBlogs(){
         },
     })
 
-
     const updateLikesMutation = useMutation({
         mutationFn: blogService.update,
         onSuccess: (updatedBlog) => {
             const blogs = queryClient.getQueryData(['blogs'])
             queryClient.setQueryData(['blogs'], blogs.map(b => b.id === updatedBlog.id ? updatedBlog : b))
-            //setNotification(`Blog ${updatedBlog.title} likes updated`, 'SUCCESS')
         },
         onError: (error) => {
             setNotification(error.response?.data?.error || 'An error occurred while updating the blog', 'ERROR')
