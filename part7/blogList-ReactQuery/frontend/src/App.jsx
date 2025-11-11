@@ -8,7 +8,9 @@ import LabelHome from './components/LabelHome'
 import Togglable from './components/Togglable'
 import LoginForm from './components/LoginForm'
 import User from './components/User'
+import Blog from './components/Blog'
 import useUsers from './hooks/useUsers'
+import useBlogs from './hooks/useBlogs'
 
 const Navigation = () => (
     <nav style={{ marginBottom: 16 }}>
@@ -17,13 +19,17 @@ const Navigation = () => (
     </nav>
 )
 
+const useMatchElement = (path, arr) => {
+    const match = useMatch(path)
+    return match ? arr.find(element => element.id === match.params.id) : null
+}
+
 const App = () => {
     const { user, handleLogOut } = useLogin()
-    const match = useMatch('/users/:id')
     const { users } = useUsers()
-    const currentUser = match
-        ? users.find(user => user.id === match.params.id)
-        : null
+    const { blogs } = useBlogs()
+    const currentUser = useMatchElement('/users/:id', users || [])
+    const currentBlog = useMatchElement('/blogs/:id', blogs || [])
 
     return (
         <>
@@ -45,6 +51,7 @@ const App = () => {
 
                 <Routes>
                     <Route path="/users/:id" element={<ProtectedRoute> <User user={currentUser}/> </ProtectedRoute>} />
+                    <Route path="/blogs/:id" element={<ProtectedRoute> <Blog blog={currentBlog}/> </ProtectedRoute>} />
                     <Route path="/" element={<ProtectedRoute> <Home/> </ProtectedRoute> } />
                     <Route path="/users" element={<ProtectedRoute> <Users /> </ProtectedRoute>} />
                 </Routes>

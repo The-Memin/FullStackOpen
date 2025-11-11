@@ -1,9 +1,8 @@
-import Blog from '../components/Blog'
 import CreateBlogForm from './CreateBlogForm'
 import Togglable from './Togglable'
 import { useRef, useState } from 'react'
 import useBlogs from '../hooks/useBlogs'
-import useLogin from '../hooks/useLogin'
+import { Link } from 'react-router-dom'
 
 const SORT = {
     ASC: 'asc',
@@ -19,13 +18,10 @@ function sortByLikes(arr, order) {
 const Blogs = () => {
     const blogRef = useRef()
     const [order, setOrder] = useState(SORT.DESC)
-    const { user } = useLogin()
 
     const {
         blogs,
         addNewBlog,
-        deleteBlog,
-        updateLikes
     } = useBlogs()
 
     const addBlog = (newBlog) => {
@@ -38,7 +34,14 @@ const Blogs = () => {
     }
 
     const blogsToShow = sortByLikes(blogs, order)
-
+    const blogStyle = {
+        display: 'block',
+        paddingTop: 10,
+        paddingLeft: 2,
+        border: 'solid',
+        borderWidth: 1,
+        marginBottom: 5
+    }
     return(
         <div>
             <Togglable buttonLabel='create a new blog' ref={blogRef}>
@@ -47,9 +50,14 @@ const Blogs = () => {
             <div style={ { marginTop: '1em' } }>
                 <button onClick={() => sortBlogsByLikes(SORT.DESC)}>sort by most likes</button>
                 <button onClick={() => sortBlogsByLikes(SORT.ASC)}>sort by few likes</button>
-                {blogsToShow.map(blog =>
-                    <Blog key={blog.id} blog={blog} updateLikes={updateLikes} deleteBlog={deleteBlog} user={user}/>
-                )}
+                <div style={{ marginTop: '1em' }}>
+                    {blogsToShow.map(blog =>
+                        <Link key={blog.id} to={`/blogs/${blog.id}`} style={blogStyle}>
+                            {blog.title}
+                        </Link>
+                    //<Blog key={blog.id} blog={blog} updateLikes={updateLikes} deleteBlog={deleteBlog} user={user}/>
+                    )}
+                </div>
             </div>
         </div>
     )
