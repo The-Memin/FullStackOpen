@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+import { Routes, Route, Link, useMatch } from 'react-router-dom'
 import useLogin from './hooks/useLogin'
 import Notification from './components/Notification'
 import Home from './components/Home'
@@ -7,6 +7,8 @@ import ProtectedRoute from './components/ProtectedRoute'
 import LabelHome from './components/LabelHome'
 import Togglable from './components/Togglable'
 import LoginForm from './components/LoginForm'
+import User from './components/User'
+import useUsers from './hooks/useUsers'
 
 const Navigation = () => (
     <nav style={{ marginBottom: 16 }}>
@@ -17,9 +19,14 @@ const Navigation = () => (
 
 const App = () => {
     const { user, handleLogOut } = useLogin()
+    const match = useMatch('/users/:id')
+    const { users } = useUsers()
+    const currentUser = match
+        ? users.find(user => user.id === match.params.id)
+        : null
 
     return (
-        <Router>
+        <>
             <div className="app-container">
                 <Notification />
 
@@ -37,11 +44,12 @@ const App = () => {
                 )}
 
                 <Routes>
+                    <Route path="/users/:id" element={<ProtectedRoute> <User user={currentUser}/> </ProtectedRoute>} />
                     <Route path="/" element={<ProtectedRoute> <Home/> </ProtectedRoute> } />
                     <Route path="/users" element={<ProtectedRoute> <Users /> </ProtectedRoute>} />
                 </Routes>
             </div>
-        </Router>
+        </>
     )
 }
 
