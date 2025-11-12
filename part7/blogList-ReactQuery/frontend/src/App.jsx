@@ -4,7 +4,6 @@ import Notification from './components/Notification'
 import Home from './components/Home'
 import Users from './components/Users'
 import ProtectedRoute from './components/ProtectedRoute'
-import LabelHome from './components/LabelHome'
 import Togglable from './components/Togglable'
 import LoginForm from './components/LoginForm'
 import User from './components/User'
@@ -12,10 +11,18 @@ import Blog from './components/Blog'
 import useUsers from './hooks/useUsers'
 import useBlogs from './hooks/useBlogs'
 
-const Navigation = () => (
-    <nav style={{ marginBottom: 16 }}>
-        <Link to="/">Home</Link>
+const LabelHome = ({ name, onLogOut }) => (
+    <span style={{ marginLeft: '1em' }}>
+        {name} logged in
+        <button onClick={onLogOut} style={{ marginLeft: 10 }}>logout</button>
+    </span>
+)
+
+const Navigation = ({ user, onLogOut }) => (
+    <nav style={{ marginBottom: 16, backgroundColor: '#e3e3e3', padding: 8 }}>
+        <Link to="/">Blogs</Link>
         <Link to="/users" style={{ marginLeft: 10 }}>Users</Link>
+        <LabelHome name={user.name} onLogOut={onLogOut} />
     </nav>
 )
 
@@ -36,10 +43,11 @@ const App = () => {
             <div className="app-container">
                 <Notification />
 
-                {user && <Navigation />}
-
                 {user ? (
-                    <LabelHome name={user.name} onLogOut={handleLogOut} />
+                    <div>
+                        <Navigation user={user} onLogOut={handleLogOut} />
+                        <h1>Blog App</h1>
+                    </div>
                 ) : (
                     <section>
                         <h2>Log in to application</h2>

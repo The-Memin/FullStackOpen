@@ -44,6 +44,7 @@ const Blogs = () => {
     }
     return(
         <div>
+            <h2>Blogs</h2>
             <Togglable buttonLabel='create a new blog' ref={blogRef}>
                 <CreateBlogForm addBlog={ addBlog }/>
             </Togglable>
