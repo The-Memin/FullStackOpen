@@ -16,6 +16,15 @@ const Blog = ({ blog }) => {
             {
                 (user.id === blog.user) && <button onClick={() => deleteBlog(blog)} className="btn-delete">remove</button>
             }
+            <h3>comments</h3>
+            {blog.comments && blog.comments.length > 0 ? (
+                <ul>
+                    {blog.comments.map((comment, i) => (
+                        <li key={`${blog.user}-${i}`}>{comment}</li>
+                    ))}
+                </ul>
+            ) : <p>No comments yet</p>
+            }
         </div>
     )
 }

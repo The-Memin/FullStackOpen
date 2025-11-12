@@ -8,6 +8,41 @@ blogsRouter.get('/', async (request, response) => {
     response.json(blogs)
 })
 
+blogsRouter.get('/:id/comments', async (request, response, next) => {
+  const { id } = request.params
+  try {
+    const blog = await Blog.findById(id)
+    if (!blog) {
+      return response.status(404).json({ error: 'Blog not found' })
+    }
+    response.status(200).json(blog.comments || [])
+  } catch (error) {
+    next(error)
+  }
+})
+
+blogsRouter.post('/:id/comments', async (request, response, next) => {
+  const { id } = request.params
+  const { comment } = request.body
+
+  if (!comment || comment.trim() === '') {
+    return response.status(400).json({ error: 'Comment cannot be empty' })
+  }
+
+  try {
+    const blog = await Blog.findById(id)
+    if (!blog) {
+      return response.status(404).json({ error: 'Blog not found' })
+    }
+
+    blog.comments = blog.comments.concat(comment)
+    const updatedBlog = await blog.save()
+    response.status(201).json(updatedBlog)
+  } catch (error) {
+    next(error)
+  }
+})
+
 blogsRouter.post('/', userExtractor, async (request, response, next) => {
   const body = request.body
   const decodedToken = jwt.verify(request.token, process.env.SECRET)
