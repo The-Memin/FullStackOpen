@@ -18,6 +18,18 @@ export default function useBlogs(){
         }
     })
 
+    const newCommentMutation = useMutation({
+        mutationFn: ( { blogId, content } ) => blogService.addNewComment(blogId, content),
+        onSuccess: (updatedBlog) => {
+            const blogs = queryClient.getQueryData(['blogs'])
+            queryClient.setQueryData(['blogs'], blogs.map(b => b.id === updatedBlog.id ? updatedBlog : b))
+            setNotification(`Comment added to blog ${updatedBlog.title}`, 'SUCCESS')
+        },
+        onError: (error) => {
+            setNotification(error.response?.data?.error || 'An error occurred while adding the comment', 'ERROR')
+        }
+    })
+
     const deleteBlogMutation = useMutation({
         mutationFn: (blog) => blogService.remove(blog.id),
         onSuccess: (_, deletedBlog) => {
@@ -48,6 +60,9 @@ export default function useBlogs(){
 
     const blogs = result.data || []
 
+    const addComment = (blogId, content) => {
+        newCommentMutation.mutate({ blogId, content })
+    }
 
     const addNewBlog = newBlog => {
         newBlogMutation.mutate(newBlog)
@@ -66,6 +81,7 @@ export default function useBlogs(){
         blogs,
         addNewBlog,
         deleteBlog,
-        updateLikes
+        updateLikes,
+        addComment
     }
 }

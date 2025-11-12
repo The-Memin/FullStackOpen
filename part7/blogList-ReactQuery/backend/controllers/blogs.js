@@ -1,7 +1,7 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
 const jwt = require('jsonwebtoken')
-const { userExtractor } = require('../utils/middleware')
+const { userExtractor, verifyToken } = require('../utils/middleware')
 
 blogsRouter.get('/', async (request, response) => {
     const blogs = await Blog.find({})
@@ -21,21 +21,19 @@ blogsRouter.get('/:id/comments', async (request, response, next) => {
   }
 })
 
-blogsRouter.post('/:id/comments', async (request, response, next) => {
+blogsRouter.post('/:id/comments', verifyToken,async (request, response, next) => {
   const { id } = request.params
-  const { comment } = request.body
+  const comment = request.body
 
-  if (!comment || comment.trim() === '') {
+  if (!comment.content || comment.content.trim() === '') {
     return response.status(400).json({ error: 'Comment cannot be empty' })
   }
-
   try {
     const blog = await Blog.findById(id)
     if (!blog) {
       return response.status(404).json({ error: 'Blog not found' })
     }
-
-    blog.comments = blog.comments.concat(comment)
+    blog.comments = blog.comments.concat(comment.content)
     const updatedBlog = await blog.save()
     response.status(201).json(updatedBlog)
   } catch (error) {
@@ -89,6 +87,24 @@ blogsRouter.delete('/:id',userExtractor, async (request, response, next) => {
     await Blog.findByIdAndDelete(id)
     response.status(204).end()
 
+  } catch (error) {
+    next(error)
+  }
+})
+
+blogsRouter.put('/:id/likes', async (request, response, next) => {
+  const { id } = request.params
+  const { likes } = request.body
+
+  try {
+    const blog = await Blog.findById(id)
+    if (!blog) {
+      return response.status(404).json({ error: 'Blog not found' })
+    }
+
+    blog.likes = likes
+    const updatedBlog = await blog.save()
+    response.status(200).json(updatedBlog)
   } catch (error) {
     next(error)
   }
