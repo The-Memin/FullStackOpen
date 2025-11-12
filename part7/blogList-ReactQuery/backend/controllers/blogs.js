@@ -92,10 +92,9 @@ blogsRouter.delete('/:id',userExtractor, async (request, response, next) => {
   }
 })
 
-blogsRouter.put('/:id/likes', async (request, response, next) => {
+blogsRouter.put('/:id/likes', verifyToken,async (request, response, next) => {
   const { id } = request.params
   const { likes } = request.body
-
   try {
     const blog = await Blog.findById(id)
     if (!blog) {

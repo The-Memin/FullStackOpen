@@ -43,7 +43,7 @@ export default function useBlogs(){
     })
 
     const updateLikesMutation = useMutation({
-        mutationFn: blogService.update,
+        mutationFn:({ blogId, likes }) => blogService.updatedLikes(blogId, likes),
         onSuccess: (updatedBlog) => {
             const blogs = queryClient.getQueryData(['blogs'])
             queryClient.setQueryData(['blogs'], blogs.map(b => b.id === updatedBlog.id ? updatedBlog : b))
@@ -73,7 +73,7 @@ export default function useBlogs(){
     }
 
     const updateLikes = async blog => {
-        const updatedBlog = { ...blog, likes: blog.likes + 1 }
+        const updatedBlog = { blogId: blog.id, likes: blog.likes + 1 }
         updateLikesMutation.mutate(updatedBlog)
     }
 
