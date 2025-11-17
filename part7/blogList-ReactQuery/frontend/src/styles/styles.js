@@ -1,0 +1,1 @@
+export const btn_styles = 'border-2 border-black py-1 px-10 text-white shadow-[2px_2px_0_#000] transition-all hover:translate-y-[-5px] cursor-pointer pacifico font-medium rounded'

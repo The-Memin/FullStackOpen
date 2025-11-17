@@ -2,7 +2,7 @@ import Blogs from './Blogs'
 
 const Home = () => {
     return (
-        <main>
+        <main className='w-full'>
             <Blogs />
         </main>
     )

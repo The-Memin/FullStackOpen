@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { btn_styles } from '../styles/styles'
 const CreateBlogForm = ({ addBlog }) => {
     const [title, setTitle] = useState('')
     const [author, setAuthor] = useState('')
@@ -27,21 +28,21 @@ const CreateBlogForm = ({ addBlog }) => {
     }
     return(
         <div>
-            <h3>create new blog</h3>
-            <form onSubmit={onCreateNewBlog}>
-                <div>
+            <h3 className='pacifico text-2xl mb-5'>create new blog</h3>
+            <form className='flex flex-col gap-3 mb-6' onSubmit={onCreateNewBlog}>
+                <div className='flex flex-col'>
                     <label htmlFor="title">title:</label>
-                    <input id='title' type="text" value={title} placeholder='title' onChange={handleChangeText('title')} name="text"/>
+                    <input className='border-2 p-2 border-black mt-1 rounded bg-white' id='title' type="text" value={title} placeholder='title' onChange={handleChangeText('title')} name="text"/>
                 </div>
-                <div>
+                <div className='flex flex-col'>
                     <label htmlFor="author">author:</label>
-                    <input id='author' type="text" value={author} placeholder='author' onChange={handleChangeText('author')} name="author"/>
+                    <input className='border-2 border-black p-2 mt-1 rounded bg-white' id='author' type="text" value={author} placeholder='author' onChange={handleChangeText('author')} name="author"/>
                 </div>
-                <div>
+                <div className='flex flex-col'>
                     <label htmlFor="url">url:</label>
-                    <input id='url' type="text" value={url} placeholder='url' onChange={handleChangeText('url')} name="url"/>
+                    <input className='border-2 border-black p-2 mt-1 rounded bg-white' id='url' type="text" value={url} placeholder='url' onChange={handleChangeText('url')} name="url"/>
                 </div>
-                <button type="submit">create</button>
+                <button className={`${btn_styles} bg-emerald-600 w-fit  mt-2`}  type="submit">create</button>
             </form>
         </div>
     )

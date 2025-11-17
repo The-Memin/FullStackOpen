@@ -6,7 +6,7 @@ const Notification = () => {
         return null
     }
     return (
-        <div className={`notification ${notification.style}`}>
+        <div className={`${notification.style} fixed border-3 border-black shadow-[6px_6px_0px_#000] bg-amber-50 py-4 px-14 rounded transition-all animate-slide-down`}>
             {notification.message}
         </div>
     )
