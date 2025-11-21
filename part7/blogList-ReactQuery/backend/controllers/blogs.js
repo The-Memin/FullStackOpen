@@ -44,6 +44,7 @@ blogsRouter.post('/:id/comments', verifyToken,async (request, response, next) =>
 blogsRouter.post('/', userExtractor, async (request, response, next) => {
   const body = request.body
   const decodedToken = jwt.verify(request.token, process.env.SECRET)
+  console.log(decodedToken)
   if(!decodedToken.id) {
     return response.status(401).json({ error: 'token invalid' })
   }

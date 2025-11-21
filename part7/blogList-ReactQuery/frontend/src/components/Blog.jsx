@@ -63,8 +63,8 @@ const Blog = ({ blog }) => {
             <div className='mt-10'>
                 <h3 className='text-2xl font-bold border-b-2 shadow-[3px_3px_0_#000] w-fit'>comments</h3>
                 <div className='flex mt-6 gap-10'>
-                    <button className={'border-2 shadow-[3px_3px_0_#000] rounded py-2 px-8 bg-yellow-300 cursor-pointer font-semibold text-black'} onClick={() => setShowCommentForm(false)}>haven´t read this yet</button>
-                    <button className='border-2 shadow-[3px_3px_0_#000] py-2 px-8 rounded bg-lime-300 cursor-pointer font-semibold text-black' onClick={() => setShowCommentForm(true)}>add comment</button>
+                    <button className={'border-2 shadow-[3px_3px_0_#000] rounded py-2 px-8 bg-yellow-300 hover:bg-yellow-400 hover:scale-95 transition-all cursor-pointer font-semibold text-black'} onClick={() => setShowCommentForm(false)}>haven´t read this yet</button>
+                    <button className='border-2 shadow-[3px_3px_0_#000] py-2 px-8 rounded bg-lime-300 hover:bg-lime-400 hover:scale-95 transition-all cursor-pointer font-semibold text-black' onClick={() => setShowCommentForm(true)}>add comment</button>
                 </div>
                 {
                     showCommentForm

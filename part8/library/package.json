@@ -1,0 +1,16 @@
+{
+  "name": "library",
+  "version": "1.0.0",
+  "description": "exercises for part8 of fullstack open",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "The-Memin",
+  "license": "ISC",
+  "dependencies": {
+    "@apollo/server": "^5.1.0",
+    "apollo-server": "^3.13.0",
+    "graphql": "^16.12.0"
+  }
+}
