@@ -1,0 +1,17 @@
+.notify{
+    padding: 10px 15px;
+    border-radius: 4px;
+    margin: 10px 0;
+}
+
+.notify.error{
+    border: 2px solid red;
+    color: red;
+    background-color: #fdd;
+}
+
+.notify.success{
+    border: 2px solid green;
+    color: green;
+    background-color: #dfd;
+}

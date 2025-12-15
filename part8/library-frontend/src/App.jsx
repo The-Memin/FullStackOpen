@@ -6,6 +6,14 @@ import EditAuthorForm from './components/EditAuthorForm'
 
 const App = () => {
   const [page, setPage] = useState('authors')
+  const [notification, setNotification] = useState(null)
+
+  const notify = (notification) => {
+    setNotification(notification)
+    setTimeout(() => {
+      setNotification(null)
+    }, 5000)
+  }
 
   return (
     <div>
@@ -15,14 +23,26 @@ const App = () => {
         <button onClick={() => setPage('add')}>add book</button>
         <button onClick={() => setPage('editAuthor')}>edit author</button>
       </div>
+      <Notify notification={notification} />
 
       <Authors show={page === 'authors'} />
 
       <Books show={page === 'books'} />
 
-      <NewBook show={page === 'add'} />
+      <NewBook setNotification={notify} show={page === 'add'} />
 
-      <EditAuthorForm show={page === 'editAuthor'}/>
+      <EditAuthorForm setNotification={notify} show={page === 'editAuthor'}/>
+    </div>
+  )
+}
+
+const Notify = ({ notification }) => {
+  if (!notification) {
+    return null
+  }
+  return (
+    <div className={`notify ${notification.type}`}>
+      {notification.message}
     </div>
   )
 }

@@ -6,6 +6,7 @@ mongoose.set('strictQuery', false)
 const Book = require('./models/book')
 const Author = require('./models/author')
 const { UserInputError } = require('apollo-server')
+const { GraphQLError } = require('graphql')
 
 require('dotenv').config()
 
@@ -192,15 +193,49 @@ const resolvers = {
   },
   Mutation: {
     addBook: async (root, args) => {
-      const author = await Author.findOne({ name: args.author })
-      const newBook = new Book({ ...args, author: author._id })
+      if(args.title.length < 2){
+        throw new GraphQLError('Title length must be at least 2 characters long', {
+          extensions: {
+            code: 'BAD_USER_INPUT',
+            invalidArgs: args.title,
+          }
+        })
+      }
+  
+      if(args.author.length < 4){
+        throw new GraphQLError('Author name length must be at least 4 characters long', {
+          extensions: {
+            code: 'BAD_USER_INPUT',
+            invalidArgs: args.author,
+          }
+        })
+      }
 
+      let author = await Author.findOne({ name: args.author })
+      if(!author){
+        author = new Author({ name: args.author })
+        try{
+          await author.save()
+        }catch(error){
+          throw new GraphQLError('Creating author failed', {
+            extensions: {
+              code: 'BAD_USER_INPUT',
+              invalidArgs: args.author,
+            }
+          })
+        }
+      }
+
+      const newBook = new Book({ ...args, author: author._id })
       try{
         await newBook.save()
       }catch(error){
-        throw new UserInputError(error.message, {
-          invalidArgs: args,
-        })  
+        throw new GraphQLError('Creating book failed', {
+          extensions: {
+            code: 'BAD_USER_INPUT',
+            invalidArgs: args,
+          }
+        }) 
       }
       return newBook
     },
@@ -215,14 +250,24 @@ const resolvers = {
       }
       return newAuthor
     },
-    editAuthor: (root, args) => {
-      const author = authors.find(author => author.name === args.name)
+    editAuthor: async (root, args) => {
+      const author = await Author.findOne({ name: args.name })
       if(!author) {
         return null
       }
-      const updatedAuthor = { ...author, born: args.setBornTo }
-      authors = authors.map(a => a.name === args.name ? updatedAuthor : a)
-      return updatedAuthor
+
+      author.born = args.setBornTo
+      
+      try{
+        return author.save()
+      }catch(error){
+        throw new GraphQLError('Updating author failed', {
+          extensions: {
+            code: 'BAD_USER_INPUT',
+            invalidArgs: args,
+          }
+        })
+      }
     }
   }
 }

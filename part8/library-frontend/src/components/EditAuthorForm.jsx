@@ -9,7 +9,13 @@ const EditAuthorForm = (props) => {
     const [born, setBorn] = useState("")
     
     const [ editAuthor ] = useMutation(EDIT_AUTHOR, {
-        refetchQueries: [ { query: ALL_AUTHORS } ]
+        refetchQueries: [ { query: ALL_AUTHORS } ],
+        onError: (error) => {
+            props.setNoticication({message: error.message, type: 'error'})
+        },
+        onCompleted: () => {
+            props.setNotification({message: `${name} updated successfully`, type: 'success'})
+        }
     })
 
     if (!props.show) { return null }
