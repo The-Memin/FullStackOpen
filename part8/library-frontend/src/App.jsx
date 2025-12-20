@@ -3,8 +3,10 @@ import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
 import EditAuthorForm from './components/EditAuthorForm'
+import LoginForm from './components/LoginForm'
 
 const App = () => {
+  const [token, setToken] = useState(localStorage.getItem('library-user-token') || null)
   const [page, setPage] = useState('authors')
   const [notification, setNotification] = useState(null)
 
@@ -15,13 +17,22 @@ const App = () => {
     }, 5000)
   }
 
+  const logout = () => {
+    setToken(null)
+    localStorage.removeItem('library-user-token')
+    setPage('authors')
+  }
+
   return (
     <div>
       <div>
         <button onClick={() => setPage('authors')}>authors</button>
         <button onClick={() => setPage('books')}>books</button>
-        <button onClick={() => setPage('add')}>add book</button>
-        <button onClick={() => setPage('editAuthor')}>edit author</button>
+        {token && <button onClick={() => setPage('add')}>add book</button>}
+        {token && <button onClick={() => setPage('editAuthor')}>edit author</button>}
+        {token && <button onClick={() => logout()}>logout</button>}
+        {!token && <button onClick={() => setPage('login')}>login</button>}
+        
       </div>
       <Notify notification={notification} />
 
@@ -32,6 +43,8 @@ const App = () => {
       <NewBook setNotification={notify} show={page === 'add'} />
 
       <EditAuthorForm setNotification={notify} show={page === 'editAuthor'}/>
+
+      <LoginForm setPage={setPage} setToken={setToken} setNotification={notify} show={page === 'login'} />
     </div>
   )
 }

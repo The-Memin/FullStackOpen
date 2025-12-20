@@ -11,10 +11,12 @@ const EditAuthorForm = (props) => {
     const [ editAuthor ] = useMutation(EDIT_AUTHOR, {
         refetchQueries: [ { query: ALL_AUTHORS } ],
         onError: (error) => {
-            props.setNoticication({message: error.message, type: 'error'})
+            props.setNotification({message: error.message, type: 'error'})
         },
         onCompleted: () => {
             props.setNotification({message: `${name} updated successfully`, type: 'success'})
+            setName('')
+            setBorn('')
         }
     })
 
@@ -25,12 +27,9 @@ const EditAuthorForm = (props) => {
     }
     const authors = authorsResult.data.allAuthors
 
-
     const submit = async (event) => {
         event.preventDefault()
         editAuthor({ variables: { name, setBornTo: Number(born) } })
-        setName('')
-        setBorn('')
     }
 
     return(

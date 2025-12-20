@@ -164,7 +164,6 @@ const resolvers = {
     },
     editAuthor: async (root, args, context) => {
       requireAuth(context.currentUser)
-
       const author = await Author.findOne({ name: args.name })
       if(!author) {
         return null

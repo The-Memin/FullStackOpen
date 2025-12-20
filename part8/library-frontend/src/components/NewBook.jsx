@@ -13,6 +13,10 @@ const NewBook = (props) => {
     refetchQueries: [{ query: ALL_BOOKS }, { query: ALL_AUTHORS }],
     onError: (error) => {
       props.setNotification({message: error.message, type: 'error'})
+    },
+    onCompleted: () => {
+      props.setNotification({message: `${title} added successfully`, type: 'success'})
+      setTitle('')
     }
   })
 
@@ -25,7 +29,6 @@ const NewBook = (props) => {
 
     addBook({ variables: { title, author, published: Number(published), genres } })
 
-    setTitle('')
     setPublished('')
     setAuthor('')
     setGenres([])
