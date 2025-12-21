@@ -59,6 +59,7 @@ const typeDefs = `
     authorCount: Int!
     allBooks(author: String, genre: String): [Book!]!
     allAuthors: [Author!]!
+    allGenres: [String!]!
     me: User
   }
 
@@ -101,7 +102,11 @@ const resolvers = {
         return await Book.find({ })
       }
       if(args.author && !args.genre) {
-        return await Book.find({ author: args.author })
+        const author = await Author.findOne({ name: args.author })
+        if(!author) {
+          return []
+        }
+        return await Book.find({ author: author._id })
       }
       if(!args.author && args.genre) {
         return await Book.find({ genres: args.genre })
@@ -110,6 +115,11 @@ const resolvers = {
     },
     allAuthors: async () => {
       return await Author.find({})
+    },
+    allGenres: async () => {
+      const books = await Book.find({})
+      const genres = books.flatMap(book => book.genres)
+      return [...new Set(genres)]
     },
     me: (root, args, context) => {
       return context.currentUser

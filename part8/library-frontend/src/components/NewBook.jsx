@@ -10,14 +10,38 @@ const NewBook = (props) => {
   const [genres, setGenres] = useState([])
 
   const [addBook] = useMutation(ADD_BOOK,{
-    refetchQueries: [{ query: ALL_BOOKS }, { query: ALL_AUTHORS }],
     onError: (error) => {
       props.setNotification({message: error.message, type: 'error'})
     },
     onCompleted: () => {
       props.setNotification({message: `${title} added successfully`, type: 'success'})
       setTitle('')
+    },
+    update: (cache, { data }) => {
+      const newBook = data.addBook
+
+      cache.modify({
+        fields: {
+          allBooks(existingRefs = [], { args, readField, toReference }) {
+            // Filtrado por género (si aplica)
+            if (args?.genre && !newBook.genres.includes(args.genre)) {
+              return existingRefs
+            }
+
+            // Evitar duplicados
+            const exists = existingRefs.some(
+              ref => readField('id', ref) === newBook.id
+            )
+            if (exists) return existingRefs
+
+            const newBookRef = toReference(newBook, true)
+
+            return [...existingRefs, newBookRef]
+          }
+        }
+      })
     }
+
   })
 
   if (!props.show) {
