@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { useMutation } from '@apollo/client/react'
-import { ADD_BOOK, ALL_BOOKS, ALL_AUTHORS } from '../queries'
+import { ADD_BOOK, BOOK_ADDED } from '../queries'
+import useHelper from '../hooks/useHelper'
+import { useSubscription } from '@apollo/client/react'
 
 const NewBook = (props) => {
   const [title, setTitle] = useState('')
@@ -8,6 +10,15 @@ const NewBook = (props) => {
   const [published, setPublished] = useState('')
   const [genre, setGenre] = useState('')
   const [genres, setGenres] = useState([])
+  const { updateCacheWith } = useHelper()
+
+  useSubscription(BOOK_ADDED, {
+    onData: ({ data }) => {
+      const addedBook = data.data.bookAdded
+      window.alert(`New book added: ${addedBook.title}`)
+      updateCacheWith(addedBook)
+    }
+  })
 
   const [addBook] = useMutation(ADD_BOOK,{
     onError: (error) => {

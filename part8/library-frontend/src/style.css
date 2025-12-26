@@ -15,3 +15,9 @@
     color: green;
     background-color: #dfd;
 }
+
+.notify.info{
+    border: 2px solid blue;
+    color: blue;
+    background-color: #ddf;
+}
