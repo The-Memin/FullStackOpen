@@ -35,7 +35,6 @@ const NewBook = (props) => {
             if (exists) return existingRefs
 
             const newBookRef = toReference(newBook, true)
-
             return [...existingRefs, newBookRef]
           }
         }

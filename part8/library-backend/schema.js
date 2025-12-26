@@ -1,0 +1,69 @@
+const typeDefs = `
+  type Author {
+    name: String!
+    born: Int
+    id: ID!
+    bookCount: Int!
+  }
+
+  type Book {
+    title: String!
+    author: Author!
+    published: Int!
+    id: ID!
+    genres: [String!]!
+  }
+
+  type User {
+    username: String!x
+    favoriteGenre: String!
+    id: ID!
+  }
+
+  type Token {
+    value: String!
+  }
+
+  type Query {
+    bookCount: Int!
+    authorCount: Int!
+    allBooks(author: String, genre: String): [Book!]!
+    allAuthors: [Author!]!
+    allGenres: [String!]!
+    me: User
+  }
+
+  type Mutation {
+    addBook(
+      title: String!
+      author: String!
+      published: Int!
+      genres: [String!]!
+    ): Book
+
+    addAuthor(
+      name: String!
+      born: Int
+    ): Author
+
+    editAuthor(
+      name: String!
+      setBornTo: Int!
+    ): Author
+
+    createUser(
+      username: String!
+      password: String!
+      favoriteGenre: String!
+    ): User
+    login(
+      username: String!
+      password: String!
+    ):Token
+  }
+
+  type Subscription{
+    bookAdded: Book!
+  }
+`
+module.exports = typeDefs
