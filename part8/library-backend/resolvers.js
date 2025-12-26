@@ -30,7 +30,26 @@ const resolvers = {
       return await Book.find({ genres: args.genre, author: args.author })
     },
     allAuthors: async () => {
-      return await Author.find({})
+      return await Author.aggregate([
+        {
+          $lookup: {
+            from: "books",
+            localField: "_id",
+            foreignField: "author",
+            as: "books"
+          }
+        },
+        {
+          $addFields: {
+            bookCount: { $size: "$books" }
+          }
+        },
+        {
+          $project: {
+            books: 0
+          }
+        }
+      ])
     },
     allGenres: async () => {
       const books = await Book.find({})
@@ -44,11 +63,6 @@ const resolvers = {
   Book: {
     author: async (root) => {
       return await Author.findById(root.author)
-    }
-  },
-  Author: {
-    bookCount: async (root) => {
-      return await Book.countDocuments({ author: root._id})
     }
   },
   Mutation: {

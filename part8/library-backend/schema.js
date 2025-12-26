@@ -15,7 +15,7 @@ const typeDefs = `
   }
 
   type User {
-    username: String!x
+    username: String!
     favoriteGenre: String!
     id: ID!
   }
