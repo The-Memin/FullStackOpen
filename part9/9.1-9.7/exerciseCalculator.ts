@@ -1,3 +1,5 @@
+import { isNotNumber } from "./utils";
+
 type Rating = 1 | 2 | 3;
 
 interface Result {
@@ -21,9 +23,9 @@ function calculateRating(average:number, target:number):Rating {
 }
 
 const ratingDescriptions = {
-    1 : "hey",
+    1 : "estas bien pendejo",
     2 : "not too bad but could be better",
-    3 : "xD"
+    3 : "You're the best"
 } as const
 
 function calculateExercises(exerciseDiary: Array<number>, target: number): Result {
@@ -31,10 +33,11 @@ function calculateExercises(exerciseDiary: Array<number>, target: number): Resul
     let totalHours:number = 0;
 
     for (let i = 0; i < exerciseDiary.length; i++) {
-      if (exerciseDiary[i] > 0) {
-        trainingDays++;
-        totalHours+=exerciseDiary[i]
-      }
+        const hoursInDay = exerciseDiary[i];
+        if (hoursInDay > 0) {
+            trainingDays++;
+            totalHours+=hoursInDay
+        }
     }
     const average = totalHours / exerciseDiary.length
     const success = average >= 2;
@@ -50,4 +53,15 @@ function calculateExercises(exerciseDiary: Array<number>, target: number): Resul
     }
 }
 
-console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2))
+const args = process.argv.slice(2)
+//console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2))
+try {
+
+    const numbers: number[] = args.map( element => {
+        if(isNotNumber(element)) throw new Error(`The element "${element}" is not a number`);
+        return Number(element)
+    })
+    console.log(calculateExercises(numbers, 2))
+} catch (error) {
+    console.log(error.message)
+}

@@ -1,3 +1,5 @@
+import { isNotNumber } from "./utils";
+
 type BMICategory = | 'Underweigth' | 'Normal' | 'Overweight' | 'Obesity';
 
 const BMI_LIMITS = {
@@ -6,7 +8,7 @@ const BMI_LIMITS = {
     OVERWEIGHT: 30
 } as const
 
-function getBmi(heightCm: number, weight: number): number{
+function getBmi(heightCm: number, weight: number): number{    
     const heightM = heightCm / 100
     return weight / (heightM ** 2)
 }
@@ -37,7 +39,12 @@ const DEFAULT_WEIGHT = 70
 const DEFAULT_HEIGHT = 170
 const args = process.argv.slice(2)
 
-const height = args[0] ? Number(args[0]) : DEFAULT_HEIGHT;
-const weight = args[1] ? Number(args[1]) : DEFAULT_WEIGHT;
-
-console.log(calculateBmi(height, weight))
+try {
+    if(isNotNumber(args[0])) throw new Error(`The Height "${args[0]}" is not a number`)
+    if(isNotNumber(args[1])) throw new Error(`The Weight "${args[1]}" is not a number`)
+    const height = args[0] ? Number(args[0]) : DEFAULT_HEIGHT;
+    const weight = args[1] ? Number(args[1]) : DEFAULT_WEIGHT;
+    console.log(calculateBmi(height, weight))
+} catch (error) {
+    console.log(error.message)
+}
