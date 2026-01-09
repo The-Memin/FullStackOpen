@@ -53,15 +53,23 @@ function calculateExercises(exerciseDiary: Array<number>, target: number): Resul
     }
 }
 
-const args = process.argv.slice(2)
-//console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2))
-try {
-
-    const numbers: number[] = args.map( element => {
+const parseArguments = (args: string[]): number[] => {
+    if (args.length < 3) throw new Error('Not enough arguments');
+    const args_sliced = args.slice(2)
+    const numbers: number[] = args_sliced.map( element => {
         if(isNotNumber(element)) throw new Error(`The element "${element}" is not a number`);
         return Number(element)
     })
+    return numbers
+}
+
+try {
+    const numbers = parseArguments(process.argv)
     console.log(calculateExercises(numbers, 2))
-} catch (error) {
-    console.log(error.message)
+} catch (error: unknown) {
+    let errorMessage = 'Something went wrong: '
+    if (error instanceof Error) {
+        errorMessage += error.message;
+    }
+    console.log(errorMessage);
 }
