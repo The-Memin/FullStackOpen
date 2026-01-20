@@ -1,5 +1,3 @@
-import { isNotNumber } from "./utils";
-
 type BMICategory = | 'Underweigth' | 'Normal' | 'Overweight' | 'Obesity';
 
 const BMI_LIMITS = {
@@ -26,7 +24,7 @@ function clasifyBMI(bmi: number): BMICategory {
     return 'Obesity'
 }
 
-function calculateBmi(height: number, weight: number): String {
+export function calculateBmi(height: number, weight: number): String {
     const bmi = getBmi(height, weight)
     const bmiCategory = clasifyBMI(bmi)
 
