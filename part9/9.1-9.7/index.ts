@@ -4,7 +4,7 @@ const app = express();
 
 app.get('/hello', (_req, res) => {
     res.send('Hello, World!');
-})
+});
 
 app.get('/bmi', (req, res) => {
     const height = Number(req.query.height);
@@ -12,14 +12,18 @@ app.get('/bmi', (req, res) => {
 
     if (isNaN(height) || isNaN(weight)) {
         res.status(400).send({ error: 'malformatted parameters' });
-        return
+        return;
     }
 
     try {
         const bmiResult = calculateBmi(height, weight);
         res.send({ weight, height, bmi: bmiResult });
-    } catch (error) {
-        res.status(500).send({ error: 'internal server error' });
+    } catch (error: unknown) {
+        let errorMessage = 'Something went wrong: ';
+        if (error instanceof Error) {
+            errorMessage += error.message;
+        }
+        res.status(500).send({ error: errorMessage });
     }
 });
 
