@@ -28,7 +28,7 @@ const ratingDescriptions = {
     3 : "You're the best"
 } as const;
 
-function calculateExercises(exerciseDiary: Array<number>, target: number): Result {
+export function calculateExercises(exerciseDiary: Array<number>, target: number): Result {
     let trainingDays:number = 0;
     let totalHours:number = 0;
 
