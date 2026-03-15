@@ -19,6 +19,7 @@ export default defineConfig([
             '@/explicit-module-boundary-types': 'off',
             '@/restrict-template-expressions': 'off',
             '@/restrict-plus-operands': 'off',
+            '@typescript-eslint/no-require-imports': 'error',
             '@/no-unsafe-member-access': 'off',
             '@/no-unused-vars': [
                 'error',
