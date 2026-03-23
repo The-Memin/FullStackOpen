@@ -1,0 +1,10 @@
+POST http://localhost:3001/api/patients
+Content-Type: application/json
+
+{
+    "name": "Desiré",
+    "ssn": "123456",
+    "dateOfBirth": "1997-05-22",
+    "occupation": "Ser La mujer mas hermosa del mundo",
+    "gender": "female"
+}

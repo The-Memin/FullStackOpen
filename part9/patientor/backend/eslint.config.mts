@@ -21,6 +21,7 @@ export default defineConfig([
             '@/restrict-plus-operands': 'off',
             '@typescript-eslint/no-require-imports': 'error',
             '@/no-unsafe-member-access': 'off',
+            '@typescript-eslint/no-unused-vars': ['error'],
             '@/no-unused-vars': [
                 'error',
                 { 'argsIgnorePattern': '^_' }
