@@ -3,7 +3,7 @@ export enum Weather {
   Rainy = 'rainy',
   Cloudy = 'cloudy',
   Stormy = 'stormy',
-  Windy = 'windy',
+  Windy = 'windy'
 };
 
 
