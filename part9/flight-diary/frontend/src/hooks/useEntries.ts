@@ -1,4 +1,4 @@
-import type { DiaryEntry, ValidationError } from '../types'
+import type { DiaryEntry } from '../types'
 import { useEffect, useState } from "react";
 import diaryEntryService from "../services/diaryEntryService";
 import axios from 'axios';
@@ -22,7 +22,8 @@ export const useEntries = () => {
           setError(error.response.data);
           setTimeout(() => setError(null), 5000); // Clear error after 5 seconds
         } else {
-          console.error('Error adding diary entry:', error);
+          setError('An unexpected error occurred');
+          setTimeout(() => setError(null), 5000); // Clear error after 5 seconds
         }
       }
     }

@@ -1,17 +1,17 @@
-import { Input } from "./Inputs";
-
+import { Input, InputRadioButtons } from "./Inputs";
+import { Weather, Visibility } from "../types";
 
 interface Values{
     date: string;
-    weather: string;
-    visibility: string;
+    weather: Weather;
+    visibility: Visibility;
     comment: string;
 }
 
 interface Setters {
     setDate: React.Dispatch<React.SetStateAction<string>>;
-    setWeather: React.Dispatch<React.SetStateAction<string>>;
-    setVisibility: React.Dispatch<React.SetStateAction<string>>;
+    setWeather: React.Dispatch<React.SetStateAction<Weather>>;
+    setVisibility: React.Dispatch<React.SetStateAction<Visibility>>;
     setComment: React.Dispatch<React.SetStateAction<string>>;
 }
 
@@ -19,6 +19,8 @@ const FormEntries = ({ values, setters, handleSubmitEntry }: { values: Values; s
     const { date, weather, visibility, comment } = values;
     const { setDate, setWeather, setVisibility, setComment } = setters;
 
+    const weatherOptions: Weather[] = Object.values(Weather);
+    const visibilityOptions: Visibility[] = Object.values(Visibility);
 
     return (
         <div className="mb-12 w-6/12">
@@ -26,8 +28,8 @@ const FormEntries = ({ values, setters, handleSubmitEntry }: { values: Values; s
           <form onSubmit={handleSubmitEntry} className="border border-gray-300 p-4 rounded-lg shadow-sm">
             <div className="flex flex-wrap gap-3 mb-4">
               <Input label="Date" id="date" name="date" type="date" value={date} setValue={setDate}/>
-              <Input label="Weather" id="weather" name="weather" type="text" value={weather} setValue={setWeather} />
-              <Input label="Visibility" id="visibility" name="visibility" type="text" value={visibility} setValue={setVisibility} />
+              <InputRadioButtons options={weatherOptions} label="Weather" setValue={setWeather} value={weather} />
+              <InputRadioButtons options={visibilityOptions} label="Visibility" setValue={setVisibility} value={visibility} />
               <Input label="Comment" id="comment" name="comment" type="text" value={comment} setValue={setComment} />
             </div>
             <button type="submit" className="bg-blue-500 text-white px-20 cursor-pointer py-2 self-center  rounded hover:bg-blue-600 transition-colors">Add</button>
