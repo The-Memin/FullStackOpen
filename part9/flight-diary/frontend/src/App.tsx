@@ -5,7 +5,7 @@ import { useEntries } from "./hooks/useEntries"
 import FormEntries from "./components/FormEntries"
 
 function App() {
-  const { diaryEntries, addEntry } = useEntries();
+  const { diaryEntries, addEntry, error } = useEntries();
   const { setters, values, cleanForm } = useFormEntries();
   
   const handleSubmitEntry = (event: React.SyntheticEvent) => {
@@ -21,6 +21,9 @@ function App() {
 
   return (
     <div className="m-auto max-w-5xl py-12">
+        {
+          error && <div className="bg-red-100 text-red-700 p-4 mb-6 rounded">{error}</div>
+        }
         <FormEntries 
           values={values}
           setters={setters}
