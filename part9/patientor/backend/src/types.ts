@@ -4,13 +4,20 @@ export interface Diagnose {
     latin?: string
 }
 
+export interface Entry {
+    id: string,
+    date: string
+
+}
+
 export interface Patient {
     id: string,
     name: string,
     dateOfBirth: string,
     ssn: string,
     gender: Gender,
-    occupation: string
+    occupation: string,
+    entries: Entry[]
 }
 
 export enum Gender {
