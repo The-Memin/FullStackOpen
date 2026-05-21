@@ -1,4 +1,4 @@
-import patientsData from '../../data/patients';
+import patientsData from '../../data/patients-full';
 import { Patient, NewPatient, NonSensitivePatientData } from '../types';
 import { v1 as uuid } from 'uuid';
 
