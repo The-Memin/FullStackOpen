@@ -2,12 +2,15 @@ import { useParams } from "react-router-dom";
 import { Female, Male, Transgender } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import patientsService from "../services/patients";
-import { Patient } from "../types";
+import diagnoseService from "../services/diagnoses";
+import { Diagnose, Patient } from "../types";
 
 const PatientDetails = () => {
     const { id } = useParams();
 
     const [patient, setPatient] = useState<Patient | null>(null);
+    const [diagnoses, setDiagnoses] = useState<Diagnose[]>([]);
+
 
     useEffect(() => {
         const fetchPatient = async () => {
@@ -15,6 +18,11 @@ const PatientDetails = () => {
             setPatient(patient);
         };
 
+        const fetchDiagnoses = async () => {
+            const diagnoses = await diagnoseService.getAll();
+            setDiagnoses(diagnoses);
+        };
+        void fetchDiagnoses();
         void fetchPatient();
     }, [id]);
 
@@ -41,7 +49,9 @@ const PatientDetails = () => {
                                     <ul className="list-disc ml-6 mt-2">
                                         {
                                             entry.diagnosisCodes?.map( code => (
-                                                <li key={code} className="text-sm text-gray-900">{code}</li>
+                                                <li key={code} className="text-sm text-gray-900">
+                                                    {code} {diagnoses.find(d => d.code === code)?.name}
+                                                </li>
                                             ))
                                         }
                                     </ul>
