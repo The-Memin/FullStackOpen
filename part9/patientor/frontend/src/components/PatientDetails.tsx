@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import patientsService from "../services/patients";
 import diagnoseService from "../services/diagnoses";
 import { Diagnose, Patient } from "../types";
+import EntryDetails from "./EntryDetails";
+
 
 const PatientDetails = () => {
     const { id } = useParams();
@@ -42,10 +44,7 @@ const PatientDetails = () => {
                         {
                             patient?.entries.map( entry => (
                                 <div key={entry.id} className="border border-gray-300 rounded p-4 my-4">
-                                    <div className="flex gap-3">
-                                        <span>{entry.date}</span>
-                                        <p className="italic">{entry.description}</p>
-                                    </div>
+                                    <EntryDetails entry={entry}/>
                                     <ul className="list-disc ml-6 mt-2">
                                         {
                                             entry.diagnosisCodes?.map( code => (

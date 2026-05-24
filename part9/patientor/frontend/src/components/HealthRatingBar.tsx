@@ -1,5 +1,5 @@
-import { Rating } from '@mui/material';
-import { Favorite } from '@mui/icons-material';
+import { Rating, ratingClasses } from '@mui/material';
+import { Favorite, FavoriteBorder } from '@mui/icons-material';
 
 import { styled } from '@mui/material/styles';
 
@@ -9,12 +9,17 @@ type BarProps = {
 };
 
 const StyledRating = styled(Rating)({
-  iconFilled: {
+  [`& .${ratingClasses.iconFilled}`]: {
     color: "#ff6d75",
   },
-  iconHover: {
+
+  [`& .${ratingClasses.iconHover}`]: {
     color: "#ff3d47",
-  }
+  },
+
+  [`& .${ratingClasses.iconEmpty}`]: {
+    color: "#ffb3b8",
+  },
 });
 
 const HEALTHBAR_TEXTS = [
@@ -32,6 +37,7 @@ const HealthRatingBar = ({ rating, showText }: BarProps) => {
         value={4 - rating}
         max={4}
         icon={<Favorite fontSize="inherit" />}
+        emptyIcon={<FavoriteBorder fontSize="inherit" />}
       />
 
       {showText ? <p>{HEALTHBAR_TEXTS[rating]}</p> : null}
