@@ -10,7 +10,7 @@ export const toNewEntry = ( object: unknown): NewEntry => {
             description: parseString(object.description),
             date: parseDate(object.date),
             specialist: parseString(object.specialist),
-            diagnosesCodes: parseDiagnosisCodes(object)
+            diagnosisCodes: parseDiagnosisCodes(object)
         };
 
         switch (object.type) {

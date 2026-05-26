@@ -1,18 +1,18 @@
-import { NewPatient, Gender, EntryType } from '../types';
+import { NewPatient, Gender } from '../types';
 
 export const toNewPatient = (object: unknown): NewPatient => {
     if (!object || typeof object !== 'object') {
         throw new Error('Incorrect or missing data');
     }
 
-    if ('name' in object && 'ssn' in object && 'dateOfBirth' in object && 'occupation' in object && 'gender' in object && 'entries' in object) {
+    if ('name' in object && 'ssn' in object && 'dateOfBirth' in object && 'occupation' in object && 'gender' in object) {
         const newPatient: NewPatient = {
             name: parseString(object.name),
             ssn: parseString(object.ssn),
             dateOfBirth: parseDate(object.dateOfBirth),
             occupation: parseString(object.occupation),
             gender: parseGender(object.gender),
-            entries: parseEntries(object.entries),
+            entries: parseEntries(object),
         };
         return newPatient;
     }
@@ -36,23 +36,19 @@ const parseGender = (gender: unknown): Gender => {
     return gender;
 };
 
-const parseEntries = (entries: unknown): NewPatient['entries'] => {
-    if (!entries || !Array.isArray(entries)) {
-        throw new Error('Incorrect or missing entries: ' + entries);
+const parseEntries = (object: unknown): NewPatient['entries'] => {
+    if (!object || typeof object !== 'object') {
+        throw new Error('Incorrect or missing entries');
     }
-
-    const entry = entries as NewPatient['entries'];
-
-    if (!entry.every(e => isEntryType(e.type))) {
-        throw new Error('Incorrect entry type: ' + entry);
+    if (!('entries' in object)) {
+        return [];
     }
-
-    return entries as NewPatient['entries'];
+    if (!Array.isArray(object.entries)) {
+        throw new Error('Entries should be an array');
+    }
+    return object.entries as NewPatient['entries'];
 };
 
-const isEntryType = (type: unknown): type is EntryType => {
-    return Object.values(EntryType).map( e => e.toString()).includes(type as string);
-};
 
 const isGender = (param: string): param is Gender => {
     return Object.values(Gender).map( g => g.toString()).includes(param);

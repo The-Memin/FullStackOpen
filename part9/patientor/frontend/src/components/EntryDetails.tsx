@@ -1,15 +1,20 @@
 import { Entry, HealthCheckEntry, HospitalEntry, OccupationalHealthcareEntry } from "../types";
-import HealthRatingBar from "./HealthRatingBar";
 import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import WorkIcon from '@mui/icons-material/Work';
+import { Favorite } from "@mui/icons-material";
+import { healthCheckColors } from "../types";
 
 const HealthCheckEntryData = ({ entry } : { entry: HealthCheckEntry })   => {
     return(
         <div>
             <p className="flex gap-2 mb-2">{entry.date} <MedicalServicesIcon/></p>
             <p>{entry.description}</p>
-            <HealthRatingBar rating={Number(entry.healthCheckRating)} showText={false}/>
+            <Favorite 
+                sx={{
+                    color: healthCheckColors[entry.healthCheckRating]
+                }}
+            />
             <p className="mt-2">diagnose by {entry.specialist}</p>
         </div>
     );

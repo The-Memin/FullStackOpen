@@ -1,35 +1,32 @@
 import { useParams } from "react-router-dom";
+import { Button } from "@mui/material";
 import { Female, Male, Transgender } from "@mui/icons-material";
-import { useEffect, useState } from "react";
-import patientsService from "../services/patients";
-import diagnoseService from "../services/diagnoses";
-import { Diagnose, Patient } from "../types";
+import useModal from "./hooks/useModal";
+import usePatient from "./hooks/usePatient";
 import EntryDetails from "./EntryDetails";
-
+import AddEntryModal from "./AddEntryModal";
 
 const PatientDetails = () => {
     const { id } = useParams();
+    const {
+        modalOpen,
+        error,
+        openModal,
+        closeModal
+    } = useModal();
 
-    const [patient, setPatient] = useState<Patient | null>(null);
-    const [diagnoses, setDiagnoses] = useState<Diagnose[]>([]);
+    const {
+        patient,
+        diagnoses,
+        entries,
+        submitNewEntry,
+        entryError
+    } = usePatient(id as string, closeModal);
 
-
-    useEffect(() => {
-        const fetchPatient = async () => {
-            const patient = await patientsService.getById(id);
-            setPatient(patient);
-        };
-
-        const fetchDiagnoses = async () => {
-            const diagnoses = await diagnoseService.getAll();
-            setDiagnoses(diagnoses);
-        };
-        void fetchDiagnoses();
-        void fetchPatient();
-    }, [id]);
+    
+    const errorMessage = entryError || error;
 
     const genderIcon = patient?.gender === 'female' ? <Female /> : patient?.gender === 'male' ? <Male /> : <Transgender />;
-
     return(
         <div className="mt-10">
             <div>
@@ -38,11 +35,17 @@ const PatientDetails = () => {
                     <p><span className="font-semibold">ssn:</span> {patient?.ssn}</p>
                     <p><span className="font-semibold">occupation:</span> {patient?.occupation}</p>
                 </div>
+                <div className="mt-10">
+                    <Button variant="contained" onClick={() => openModal()}>
+                        Add new Entry
+                    </Button>
+                    <AddEntryModal entryId={id as string} modalOpen={ modalOpen } onClose={ closeModal } onSubmit={submitNewEntry} error={errorMessage}/>
+                </div>
                 <div className="mt-8">
                     <h3 className="font-bold text-xl">entries</h3>
                     <div>
                         {
-                            patient?.entries.map( entry => (
+                            entries.map( entry => (
                                 <div key={entry.id} className="border border-gray-300 rounded p-4 my-4">
                                     <EntryDetails entry={entry}/>
                                     <ul className="list-disc ml-6 mt-2">

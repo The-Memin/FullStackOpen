@@ -41,6 +41,13 @@ export enum HealthCheckRating {
     'CriticalRisk' = 3
 }
 
+export const healthCheckColors = {
+  [HealthCheckRating.Healthy]: '#22c55e',      // verde
+  [HealthCheckRating.LowRisk]: '#eab308',      // amarillo
+  [HealthCheckRating.HighRisk]: '#f97316',     // naranja
+  [HealthCheckRating.CriticalRisk]: '#ef4444', // rojo
+};
+
 export interface HealthCheckEntry extends BaseEntry {
     type: 'HealthCheck',
     healthCheckRating: HealthCheckRating
@@ -66,5 +73,10 @@ export interface OccupationalHealthcareEntry extends BaseEntry {
 export type Entry = | HospitalEntry
     | OccupationalHealthcareEntry
     | HealthCheckEntry;
+
+//Define omit especial para uniones
+type UnionOmit<T, K extends string | number | symbol> = T extends unknown ? Omit<T, K> : never;
+//Define Entry sin la propiedad id
+export type EntryFormValues = UnionOmit<Entry, 'id'>;
 
 export type PatientFormValues = Omit<Patient, "id" | "entries">;
