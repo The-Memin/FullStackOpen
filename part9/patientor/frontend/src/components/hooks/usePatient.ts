@@ -4,11 +4,10 @@ import diagnoseService from "../../services/diagnoses";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-const usePatient = (id: string, closeModal: ()=> void) => {
+const usePatient = (id: string, closeModal: ()=> void, setErrorMessage:(message:string)=> void) => {
     const [patient, setPatient] = useState<Patient | null>(null);
     const [diagnoses, setDiagnoses] = useState<Diagnose[]>([]);
     const [entries, setEntries] = useState<Entry[]>([]);
-    const [entryError, setEntryError] = useState<string>();
 
     useEffect(() => {
         const fetchPatient = async () => {
@@ -35,13 +34,13 @@ const usePatient = (id: string, closeModal: ()=> void) => {
                 if (error?.response?.data && typeof error?.response?.data === "string") {
                     const message = error.response.data.replace('Something went wrong. Error: ', '');
                     console.error(message);
-                    setEntryError(message);
+                    setErrorMessage(message);
                 } else {
-                    setEntryError("Unrecognized axios error");
+                    setErrorMessage("Unrecognized axios error");
                 }
             }else {
                 console.error("Unknown error", error);
-                setEntryError("Unknown error");
+                setErrorMessage("Unknown error");
             }
         }
     };
@@ -50,8 +49,7 @@ const usePatient = (id: string, closeModal: ()=> void) => {
         patient,
         diagnoses,
         entries,
-        submitNewEntry,
-        entryError
+        submitNewEntry
     };
 };
 

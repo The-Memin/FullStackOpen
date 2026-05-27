@@ -11,6 +11,7 @@ const PatientDetails = () => {
     const {
         modalOpen,
         error,
+        setErrorMessage,
         openModal,
         closeModal
     } = useModal();
@@ -19,14 +20,11 @@ const PatientDetails = () => {
         patient,
         diagnoses,
         entries,
-        submitNewEntry,
-        entryError
-    } = usePatient(id as string, closeModal);
-
-    
-    const errorMessage = entryError || error;
+        submitNewEntry
+    } = usePatient(id as string, closeModal, setErrorMessage);
 
     const genderIcon = patient?.gender === 'female' ? <Female /> : patient?.gender === 'male' ? <Male /> : <Transgender />;
+
     return(
         <div className="mt-10">
             <div>
@@ -39,7 +37,7 @@ const PatientDetails = () => {
                     <Button variant="contained" onClick={() => openModal()}>
                         Add new Entry
                     </Button>
-                    <AddEntryModal entryId={id as string} modalOpen={ modalOpen } onClose={ closeModal } onSubmit={submitNewEntry} error={errorMessage}/>
+                    <AddEntryModal diagnoses={diagnoses} entryId={id as string} modalOpen={ modalOpen } onClose={ closeModal } onSubmit={submitNewEntry} error={error}/>
                 </div>
                 <div className="mt-8">
                     <h3 className="font-bold text-xl">entries</h3>
@@ -48,15 +46,21 @@ const PatientDetails = () => {
                             entries.map( entry => (
                                 <div key={entry.id} className="border border-gray-300 rounded p-4 my-4">
                                     <EntryDetails entry={entry}/>
-                                    <ul className="list-disc ml-6 mt-2">
-                                        {
-                                            entry.diagnosisCodes?.map( code => (
-                                                <li key={code} className="text-sm text-gray-900">
-                                                    {code} {diagnoses.find(d => d.code === code)?.name}
-                                                </li>
-                                            ))
-                                        }
-                                    </ul>
+                                    {
+                                        (entry.diagnosisCodes?.length ?? 0) > 0 &&
+                                        <div className="mt-4">
+                                            <span>Diagnosis Codes:</span>
+                                            <ul className="list-disc ml-6 mt-2">
+                                                {
+                                                    entry.diagnosisCodes?.map( code => (
+                                                        <li key={code} className="text-sm text-gray-900">
+                                                            {code} {diagnoses.find(d => d.code === code)?.name}
+                                                        </li>
+                                                    ))
+                                                }
+                                            </ul>
+                                        </div>
+                                    }
                                 </div>
                             )) 
                         }

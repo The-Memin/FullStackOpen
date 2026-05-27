@@ -45,7 +45,6 @@ router.post('/:id/entries', (req, res) => {
         }
         res.status(400).send(errorMessage);
     }
-    res.json(patientId);
 });
 
 export default router;

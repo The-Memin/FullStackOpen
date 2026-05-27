@@ -41,6 +41,12 @@ export enum HealthCheckRating {
     'CriticalRisk' = 3
 }
 
+export enum EntryType {
+    HealthCheck = 'HealthCheck',
+    Hospital = 'Hospital',
+    OccupationalHealthcare = 'OccupationalHealthcare'
+}
+
 export const healthCheckColors = {
   [HealthCheckRating.Healthy]: '#22c55e',      // verde
   [HealthCheckRating.LowRisk]: '#eab308',      // amarillo
@@ -67,7 +73,7 @@ export interface OccupationalHealthcareEntry extends BaseEntry {
     sickLeave?: {
         startDate: string,
         endDate: string
-     }
+    }
 }
 
 export type Entry = | HospitalEntry

@@ -105,13 +105,13 @@ const parseDiagnosisCodes = (object: unknown): Array<Diagnose['code']> =>  {
 };
 
 
-const isHealtCheckRating = (param: number): param is HealthCheckRating => {
+const isHealthCheckRating = (param: number): param is HealthCheckRating => {
     return Object.values(HealthCheckRating).includes(param);
 };
 
 const parseHealtCheckRating = (rating: unknown): number => {
     const ratingNumber = Number(rating);
-    if(!rating || !isNumber(ratingNumber) || !isHealtCheckRating(ratingNumber) ){
+    if(!isNumber(ratingNumber) || !isHealthCheckRating(ratingNumber) ){
         throw new Error('Incorrect or missing health check rating: ' + rating);
     }
 

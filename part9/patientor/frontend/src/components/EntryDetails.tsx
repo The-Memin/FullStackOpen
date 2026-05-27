@@ -25,6 +25,15 @@ const HospitalEntryData = ({ entry } : { entry: HospitalEntry }) => {
         <div>
             <p className="flex gap-2 mb-2">{entry.date} <LocalHospitalIcon/></p>
             <p>{entry.description}</p>
+            <div>
+                {
+                    entry.discharge &&
+                    <div className="mt-4">
+                        <span>Discharge:</span>
+                        <p>{entry.discharge.date}  {entry.discharge.criteria}</p>
+                    </div>
+                }
+            </div>
             <p className="mt-2">diagnose by {entry.specialist}</p>
         </div>
     );

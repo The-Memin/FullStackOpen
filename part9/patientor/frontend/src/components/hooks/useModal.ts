@@ -11,11 +11,16 @@ const useModal = () => {
         setError(undefined);
     };
 
+    const setErrorMessage = (message: string) => {
+        setError(message);
+    };
+
     return{
         modalOpen,
         error,
         openModal,
-        closeModal
+        closeModal,
+        setErrorMessage
     };
 };
 
